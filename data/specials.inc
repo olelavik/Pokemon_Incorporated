@@ -457,4 +457,6 @@ gSpecials::
 	def_special Trader_SellPartyMon
 	def_special Trader_ChooseBoxMon
 	def_special Trader_SellBoxMon
+	def_special Trader_ChooseBuyMon
+	def_special Trader_BuyMon
 gSpecialsEnd::

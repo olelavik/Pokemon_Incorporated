@@ -15,6 +15,10 @@
 //   Trader_SellPartyMon    VAR_0x8004 = party slot
 //   Trader_ChooseBoxMon    opens a list of every boxed Pokémon (use waitstate)
 //   Trader_SellBoxMon      sells the Pokémon picked by Trader_ChooseBoxMon
+//   Trader_ChooseBuyMon    opens this Center's stock list (use waitstate)
+//   Trader_BuyMon          buys the Pokémon picked by Trader_ChooseBuyMon
+//                          (VAR_0x8005 = species for showmonpic,
+//                           VAR_0x8004 = 1 if it's a premium gym counter)
 // Each sets VAR_RESULT to a TRADER_* result and buffers:
 //   STR_VAR_2 = price you'll receive, STR_VAR_3 = species name
 // (STR_VAR_1 is avoided on purpose: the money box overwrites it.)
@@ -34,9 +38,12 @@
 #include "pokemon.h"
 #include "pokemon_storage_system.h"
 #include "script.h"
+#include "script_pokemon_util.h"
 #include "string_util.h"
 #include "strings.h"
+#include "constants/flags.h"
 #include "constants/items.h"
+#include "constants/map_groups.h"
 #include "constants/songs.h"
 #include "constants/species.h"
 
@@ -48,7 +55,11 @@ enum {
     TRADER_LAST_MON,    // can't sell your last Pokémon
     TRADER_BAG_FULL,    // held item couldn't be returned to the bag
     TRADER_NO_BOX_MONS, // nothing in the PC
-    TRADER_CANCEL,      // player backed out of the box list
+    TRADER_CANCEL,      // player backed out of a list
+    TRADER_NO_STOCK,    // this Center has nothing for sale
+    TRADER_CANT_AFFORD, // not enough money
+    TRADER_NO_ROOM,     // party and PC are both full
+    TRADER_SENT_TO_PC,  // bought, but the party was full
 };
 
 static const u16 sLegendaries[] = {
@@ -213,37 +224,45 @@ void Trader_SellPartyMon(void)
 }
 
 // ---------------------------------------------------------------------------
-// PC boxes: a scrollable list of every boxed Pokémon with its price
+// Scrollable list shared by the PC box sale and the shop: "NAME Lv.N  ¥price"
 // ---------------------------------------------------------------------------
 
-#define BOX_LIST_LABEL_LEN   (POKEMON_NAME_LENGTH + 12)
-#define BOX_LIST_MAX_SHOWN   6
-#define BOX_LIST_WIDTH       20
-#define BOX_LIST_BASE_BLOCK  0x038
+#define TRADER_LIST_CAPACITY   (TOTAL_BOXES_COUNT * IN_BOX_COUNT)
+#define TRADER_LIST_LABEL_LEN  (POKEMON_NAME_LENGTH + 12)
+#define TRADER_LIST_MAX_SHOWN  6
+#define TRADER_LIST_WIDTH      20
+#define TRADER_LIST_BASE_BLOCK 0x038
 
-struct TraderBoxList
+enum {
+    TRADER_LIST_BOX,  // selling from the PC
+    TRADER_LIST_SHOP, // buying from this town's stock
+};
+
+struct TraderList
 {
-    struct ListMenuItem items[TOTAL_BOXES_COUNT * IN_BOX_COUNT];
-    u8 labels[TOTAL_BOXES_COUNT * IN_BOX_COUNT][BOX_LIST_LABEL_LEN];
-    u16 location[TOTAL_BOXES_COUNT * IN_BOX_COUNT]; // box * IN_BOX_COUNT + position
+    struct ListMenuItem items[TRADER_LIST_CAPACITY];
+    u8 labels[TRADER_LIST_CAPACITY][TRADER_LIST_LABEL_LEN];
+    u32 prices[TRADER_LIST_CAPACITY];
+    u16 ids[TRADER_LIST_CAPACITY]; // box slot (box * IN_BOX_COUNT + pos) or stock index
     u16 count;
+    u8 kind;
     u8 windowId;
     u8 listTaskId;
     u8 arrowTaskId;
     u16 scrollOffset;
 };
 
-static EWRAM_DATA struct TraderBoxList *sBoxList = NULL;
+static EWRAM_DATA struct TraderList *sList = NULL;
 
-static void Task_TraderBoxList(u8 taskId);
+static void Task_TraderList(u8 taskId);
 
-static const struct ScrollArrowsTemplate sBoxListArrows = {
+static const struct ScrollArrowsTemplate sListArrows = {
     .firstArrowType = SCROLL_ARROW_UP,
-    .firstX = 8 * (1 + BOX_LIST_WIDTH / 2) + 8,
+    .firstX = 8 + TRADER_LIST_WIDTH * 4,
     .firstY = 4,
     .secondArrowType = SCROLL_ARROW_DOWN,
-    .secondX = 8 * (1 + BOX_LIST_WIDTH / 2) + 8,
-    .secondY = 8 + 16 * BOX_LIST_MAX_SHOWN + 4,
+    .secondX = 8 + TRADER_LIST_WIDTH * 4,
+    .secondY = 8 + 16 * TRADER_LIST_MAX_SHOWN + 4,
     .fullyUpThreshold = 0,
     .fullyDownThreshold = 0,
     .tileTag = 2000,
@@ -251,145 +270,142 @@ static const struct ScrollArrowsTemplate sBoxListArrows = {
     .palNum = 0,
 };
 
-static void BoxList_PrintPrice(u8 windowId, u32 itemIndex, u8 y)
+static void List_Add(u16 species, u8 level, u32 price, u16 id)
+{
+    u16 n = sList->count;
+    u8 *label = sList->labels[n];
+
+    label = StringCopy(label, gSpeciesNames[species]);
+    *label++ = CHAR_SPACE;
+    *label++ = CHAR_EXTRA_SYMBOL;
+    *label++ = CHAR_LV_2;
+    ConvertIntToDecimalStringN(label, level, STR_CONV_MODE_LEFT_ALIGN, 3);
+    sList->items[n].label = sList->labels[n];
+    sList->items[n].index = n;
+    sList->prices[n] = price;
+    sList->ids[n] = id;
+    sList->count++;
+}
+
+static void List_PrintPrice(u8 windowId, u32 itemIndex, u8 y)
 {
     u8 buffer[12];
-    u16 loc;
     s32 x;
 
-    if (itemIndex >= sBoxList->count)
+    if (itemIndex >= sList->count)
         return;
-    loc = sBoxList->location[itemIndex];
     buffer[0] = CHAR_CURRENCY;
-    ConvertIntToDecimalStringN(buffer + 1,
-                               GetPayout(GetBoxMonPrice(GetBoxedMonPtr(loc / IN_BOX_COUNT, loc % IN_BOX_COUNT))),
-                               STR_CONV_MODE_LEFT_ALIGN, 6);
-    x = BOX_LIST_WIDTH * 8 - 4 - GetStringWidth(FONT_NORMAL, buffer, 0);
+    ConvertIntToDecimalStringN(buffer + 1, sList->prices[itemIndex], STR_CONV_MODE_LEFT_ALIGN, 6);
+    x = TRADER_LIST_WIDTH * 8 - 4 - GetStringWidth(FONT_NORMAL, buffer, 0);
     AddTextPrinterParameterized(windowId, FONT_NORMAL, buffer, x, y, TEXT_SKIP_DRAW, NULL);
 }
 
-static void BoxList_MoveCursor(s32 itemIndex, bool8 onInit, struct ListMenu *list)
+static void List_MoveCursor(s32 itemIndex, bool8 onInit, struct ListMenu *list)
 {
     if (!onInit)
         PlaySE(SE_SELECT);
 }
 
-static void BoxList_Build(void)
+static void List_Open(void)
+{
+    struct ListMenuTemplate template = {0};
+    struct WindowTemplate window;
+    u8 shown = sList->count < TRADER_LIST_MAX_SHOWN ? sList->count : TRADER_LIST_MAX_SHOWN;
+
+    LockPlayerFieldControls();
+    window = SetWindowTemplateFields(0, 1, 1, TRADER_LIST_WIDTH, shown * 2, 15, TRADER_LIST_BASE_BLOCK);
+    sList->windowId = AddWindow(&window);
+    SetStdWindowBorderStyle(sList->windowId, FALSE);
+
+    template.items = sList->items;
+    template.moveCursorFunc = List_MoveCursor;
+    template.itemPrintFunc = List_PrintPrice;
+    template.totalItems = sList->count;
+    template.maxShowed = shown;
+    template.windowId = sList->windowId;
+    template.item_X = 8;
+    template.cursorPal = 2;
+    template.fillValue = 1;
+    template.cursorShadowPal = 3;
+    template.fontId = FONT_NORMAL;
+    sList->listTaskId = ListMenuInit(&template, 0, 0);
+
+    sList->arrowTaskId = TASK_NONE;
+    if (sList->count > TRADER_LIST_MAX_SHOWN)
+    {
+        struct ScrollArrowsTemplate arrows = sListArrows;
+        arrows.fullyDownThreshold = sList->count - TRADER_LIST_MAX_SHOWN;
+        sList->arrowTaskId = AddScrollIndicatorArrowPair(&arrows, &sList->scrollOffset);
+    }
+    PutWindowTilemap(sList->windowId);
+    CopyWindowToVram(sList->windowId, COPYWIN_FULL);
+    CreateTask(Task_TraderList, 8);
+}
+
+static void List_Close(u8 taskId)
+{
+    if (sList->arrowTaskId != TASK_NONE)
+        RemoveScrollIndicatorArrowPair(sList->arrowTaskId);
+    DestroyListMenuTask(sList->listTaskId, NULL, NULL);
+    ClearStdWindowAndFrameToTransparent(sList->windowId, TRUE);
+    ClearWindowTilemap(sList->windowId);
+    CopyWindowToVram(sList->windowId, COPYWIN_GFX);
+    RemoveWindow(sList->windowId);
+    FREE_AND_SET_NULL(sList);
+    DestroyTask(taskId);
+    ScriptContext_Enable();
+}
+
+static void List_OnPicked(u16 id); // defined with the shop below
+
+static void Task_TraderList(u8 taskId)
+{
+    s32 input = ListMenu_ProcessInput(sList->listTaskId);
+    u16 scroll, row;
+
+    ListMenuGetScrollAndRow(sList->listTaskId, &scroll, &row);
+    sList->scrollOffset = scroll;
+
+    if (input == LIST_NOTHING_CHOSEN)
+        return;
+    PlaySE(SE_SELECT);
+    if (input == LIST_CANCEL)
+        gSpecialVar_Result = TRADER_CANCEL;
+    else
+        List_OnPicked(sList->ids[input]);
+    List_Close(taskId);
+}
+
+// ---------------------------------------------------------------------------
+// Selling from the PC boxes
+// ---------------------------------------------------------------------------
+
+void Trader_ChooseBoxMon(void)
 {
     u32 box, pos;
-    u16 n = 0;
 
+    sList = AllocZeroed(sizeof(*sList));
+    sList->kind = TRADER_LIST_BOX;
     for (box = 0; box < TOTAL_BOXES_COUNT; box++)
     {
         for (pos = 0; pos < IN_BOX_COUNT; pos++)
         {
             struct BoxPokemon *boxMon = GetBoxedMonPtr(box, pos);
             u16 species = GetBoxMonData(boxMon, MON_DATA_SPECIES);
-            u8 *label;
 
             if (species == SPECIES_NONE || GetBoxMonData(boxMon, MON_DATA_IS_EGG))
                 continue;
-            label = sBoxList->labels[n];
-            label = StringCopy(label, gSpeciesNames[species]);
-            *label++ = CHAR_SPACE;
-            *label++ = CHAR_EXTRA_SYMBOL;
-            *label++ = CHAR_LV_2;
-            label = ConvertIntToDecimalStringN(label, GetLevelFromBoxMonExp(boxMon), STR_CONV_MODE_LEFT_ALIGN, 3);
-            sBoxList->items[n].label = sBoxList->labels[n];
-            sBoxList->items[n].index = n;
-            sBoxList->location[n] = box * IN_BOX_COUNT + pos;
-            n++;
+            List_Add(species, GetLevelFromBoxMonExp(boxMon), GetPayout(GetBoxMonPrice(boxMon)), box * IN_BOX_COUNT + pos);
         }
     }
-    sBoxList->count = n;
-}
-
-void Trader_ChooseBoxMon(void)
-{
-    struct ListMenuTemplate template = {0};
-    struct WindowTemplate window;
-    u8 shown;
-
-    sBoxList = AllocZeroed(sizeof(*sBoxList));
-    BoxList_Build();
-    if (sBoxList->count == 0)
+    if (sList->count == 0)
     {
-        FREE_AND_SET_NULL(sBoxList);
+        FREE_AND_SET_NULL(sList);
         gSpecialVar_Result = TRADER_NO_BOX_MONS;
-        return; // no waitstate needed: the script checks VAR_RESULT first
+        return; // no list opened: the script skips its waitstate
     }
-
-    LockPlayerFieldControls();
-    shown = sBoxList->count < BOX_LIST_MAX_SHOWN ? sBoxList->count : BOX_LIST_MAX_SHOWN;
-    window = SetWindowTemplateFields(0, 1, 1, BOX_LIST_WIDTH, shown * 2, 15, BOX_LIST_BASE_BLOCK);
-    sBoxList->windowId = AddWindow(&window);
-    SetStdWindowBorderStyle(sBoxList->windowId, FALSE);
-
-    template.items = sBoxList->items;
-    template.moveCursorFunc = BoxList_MoveCursor;
-    template.itemPrintFunc = BoxList_PrintPrice;
-    template.totalItems = sBoxList->count;
-    template.maxShowed = shown;
-    template.windowId = sBoxList->windowId;
-    template.item_X = 8;
-    template.cursorPal = 2;
-    template.fillValue = 1;
-    template.cursorShadowPal = 3;
-    template.lettersSpacing = 0;
-    template.fontId = FONT_NORMAL;
-    sBoxList->listTaskId = ListMenuInit(&template, 0, 0);
-
-    sBoxList->arrowTaskId = TASK_NONE;
-    if (sBoxList->count > BOX_LIST_MAX_SHOWN)
-    {
-        struct ScrollArrowsTemplate arrows = sBoxListArrows;
-        arrows.fullyDownThreshold = sBoxList->count - BOX_LIST_MAX_SHOWN;
-        sBoxList->arrowTaskId = AddScrollIndicatorArrowPair(&arrows, &sBoxList->scrollOffset);
-    }
-    PutWindowTilemap(sBoxList->windowId);
-    CopyWindowToVram(sBoxList->windowId, COPYWIN_FULL);
     gSpecialVar_Result = TRADER_OK;
-    CreateTask(Task_TraderBoxList, 8);
-}
-
-static void BoxList_Destroy(u8 taskId)
-{
-    if (sBoxList->arrowTaskId != TASK_NONE)
-        RemoveScrollIndicatorArrowPair(sBoxList->arrowTaskId);
-    DestroyListMenuTask(sBoxList->listTaskId, NULL, NULL);
-    ClearStdWindowAndFrameToTransparent(sBoxList->windowId, TRUE);
-    ClearWindowTilemap(sBoxList->windowId);
-    CopyWindowToVram(sBoxList->windowId, COPYWIN_GFX);
-    RemoveWindow(sBoxList->windowId);
-    FREE_AND_SET_NULL(sBoxList);
-    DestroyTask(taskId);
-    ScriptContext_Enable();
-}
-
-static void Task_TraderBoxList(u8 taskId)
-{
-    s32 input = ListMenu_ProcessInput(sBoxList->listTaskId);
-    u16 cursorPos, itemsAbove;
-
-    ListMenuGetScrollAndRow(sBoxList->listTaskId, &cursorPos, &itemsAbove);
-    sBoxList->scrollOffset = cursorPos;
-
-    if (input == LIST_NOTHING_CHOSEN)
-        return;
-    PlaySE(SE_SELECT);
-    if (input == LIST_CANCEL)
-    {
-        gSpecialVar_Result = TRADER_CANCEL;
-    }
-    else
-    {
-        u16 loc = sBoxList->location[input];
-        gSpecialVar_0x8005 = loc / IN_BOX_COUNT;
-        gSpecialVar_0x8006 = loc % IN_BOX_COUNT;
-        BufferOffer(GetBoxedMonPtr(gSpecialVar_0x8005, gSpecialVar_0x8006));
-        gSpecialVar_Result = TRADER_OK;
-    }
-    BoxList_Destroy(taskId);
+    List_Open();
 }
 
 void Trader_SellBoxMon(void)
@@ -412,4 +428,140 @@ void Trader_SellBoxMon(void)
     ZeroBoxMonAt(gSpecialVar_0x8005, gSpecialVar_0x8006);
     AddMoney(&gSaveBlock1Ptr->money, price);
     gSpecialVar_Result = TRADER_OK;
+}
+
+// ---------------------------------------------------------------------------
+// Buying: each Pokémon Center has its own stock (src/data/pokemon_trader_stock.h)
+// ---------------------------------------------------------------------------
+
+#define MARKUP_NORMAL  4 // buy price = 4x what he'd pay you back at that level
+#define MARKUP_PREMIUM 8 // counters for the next gym cost double
+
+struct TraderStock
+{
+    u16 species;
+    u8 level;
+    u8 minBadges:4; // appears once you have this many badges
+    u8 premium:1;   // "most useful for the next gym" markup
+};
+
+struct TraderShop
+{
+    u16 map; // MAP_* of the Pokémon Center
+    const struct TraderStock *stock;
+    u16 count;
+};
+
+#include "data/pokemon_trader_stock.h"
+
+static const struct TraderShop *GetCurrentShop(void)
+{
+    u16 map = (gSaveBlock1Ptr->location.mapGroup << 8) | gSaveBlock1Ptr->location.mapNum;
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(sTraderShops); i++)
+    {
+        if (sTraderShops[i].map == map)
+            return &sTraderShops[i];
+    }
+    return NULL;
+}
+
+static u32 GetBuyPrice(const struct TraderStock *stock)
+{
+    u32 price = GetTraderPrice(stock->species, stock->level, FALSE)
+              * (stock->premium ? MARKUP_PREMIUM : MARKUP_NORMAL);
+
+    return price > MAX_MONEY ? MAX_MONEY : price;
+}
+
+static u32 CountBadges(void)
+{
+    u32 i, count = 0;
+
+    for (i = FLAG_BADGE01_GET; i <= FLAG_BADGE08_GET; i++)
+    {
+        if (FlagGet(i))
+            count++;
+    }
+    return count;
+}
+
+void Trader_ChooseBuyMon(void)
+{
+    const struct TraderShop *shop = GetCurrentShop();
+    u32 i, badges = CountBadges();
+
+    if (shop == NULL)
+    {
+        gSpecialVar_Result = TRADER_NO_STOCK;
+        return;
+    }
+    sList = AllocZeroed(sizeof(*sList));
+    sList->kind = TRADER_LIST_SHOP;
+    for (i = 0; i < shop->count; i++)
+    {
+        const struct TraderStock *stock = &shop->stock[i];
+
+        if (badges >= stock->minBadges)
+            List_Add(stock->species, stock->level, GetBuyPrice(stock), i);
+    }
+    if (sList->count == 0)
+    {
+        FREE_AND_SET_NULL(sList);
+        gSpecialVar_Result = TRADER_NO_STOCK;
+        return;
+    }
+    gSpecialVar_Result = TRADER_OK;
+    List_Open();
+}
+
+static void List_OnPicked(u16 id)
+{
+    gSpecialVar_Result = TRADER_OK;
+    if (sList->kind == TRADER_LIST_BOX)
+    {
+        gSpecialVar_0x8005 = id / IN_BOX_COUNT;
+        gSpecialVar_0x8006 = id % IN_BOX_COUNT;
+        BufferOffer(GetBoxedMonPtr(gSpecialVar_0x8005, gSpecialVar_0x8006));
+    }
+    else
+    {
+        const struct TraderStock *stock = &GetCurrentShop()->stock[id];
+
+        gSpecialVar_0x8004 = stock->premium;
+        gSpecialVar_0x8005 = stock->species; // for showmonpic
+        gSpecialVar_0x8006 = id;
+        StringCopy(gStringVar3, gSpeciesNames[stock->species]);
+        ConvertIntToDecimalStringN(gStringVar2, GetBuyPrice(stock), STR_CONV_MODE_LEFT_ALIGN, 6);
+    }
+}
+
+void Trader_BuyMon(void)
+{
+    const struct TraderShop *shop = GetCurrentShop();
+    const struct TraderStock *stock;
+    u32 price;
+    u8 given;
+
+    if (shop == NULL || gSpecialVar_0x8006 >= shop->count)
+    {
+        gSpecialVar_Result = TRADER_CANCEL;
+        return;
+    }
+    stock = &shop->stock[gSpecialVar_0x8006];
+    price = GetBuyPrice(stock);
+    if (GetMoney(&gSaveBlock1Ptr->money) < price)
+    {
+        gSpecialVar_Result = TRADER_CANT_AFFORD;
+        return;
+    }
+    given = ScriptGiveMon(stock->species, stock->level, ITEM_NONE, 0, 0, 0);
+    if (given == MON_CANT_GIVE)
+    {
+        gSpecialVar_Result = TRADER_NO_ROOM;
+        return;
+    }
+    RemoveMoney(&gSaveBlock1Ptr->money, price);
+    gSpecialVar_Result = (given == MON_GIVEN_TO_PC) ? TRADER_SENT_TO_PC : TRADER_OK;
 }

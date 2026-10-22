@@ -70,6 +70,7 @@
 #define MULTICHOICE_JOIN_OR_LEAD                               63
 #define MULTICHOICE_TRAINER_TOWER_MODE                         64
 #define MULTICHOICE_TRADER_SELL_FROM                           65 // Pokémon Inc
+#define MULTICHOICE_TRADER_MAIN                                66 // Pokémon Inc
 
 #define MULTICHOICE_NONE                                      255
 

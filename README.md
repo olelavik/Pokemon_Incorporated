@@ -25,7 +25,8 @@ The original decomp README is in [README_DECOMP.md](README_DECOMP.md).
 | Greedy NPCs, Pallet Town to Pewter City | Done |
 | Viridian old man: landowner lecture, no tutorial | Done |
 | Pokémon trader in every Center: sell from party or PC | Done (`src/pokemon_trader.c`, `data/scripts/pokemon_trader.inc`) |
-| Buying Pokémon from the trader | Planned |
+| Buying Pokémon: per-Center stock, Celadon grows with badges | Done (`src/data/pokemon_trader_stock.h`) |
+| Rare 2% spawns on early routes | Done (`src/data/wild_encounters.json`) |
 | Market saturation and price swings | Planned |
 | Entry fees, toll booths | Planned |
 | Bill's PC free (ads) / premium | Planned |

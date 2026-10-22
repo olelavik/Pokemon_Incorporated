@@ -503,6 +503,15 @@ static const u8 sText_TraderParty[] = _("PARTY");
 static const u8 sText_TraderPcBox[] = _("PC BOX");
 static const u8 sText_TraderCancel[] = _("CANCEL");
 
+static const u8 sText_TraderBuy[] = _("BUY");
+static const u8 sText_TraderSell[] = _("SELL");
+
+static const struct MenuAction sMultichoiceList_TraderMain[] = {
+    { sText_TraderBuy },
+    { sText_TraderSell },
+    { sText_TraderCancel }
+};
+
 static const struct MenuAction sMultichoiceList_TraderSellFrom[] = {
     { sText_TraderParty },
     { sText_TraderPcBox },
@@ -580,6 +589,7 @@ static const struct MultichoiceListStruct sMultichoiceLists[] = {
     [MULTICHOICE_JOIN_OR_LEAD]                               = MULTICHOICE(sMultichoiceList_JoinOrLead),
     [MULTICHOICE_TRAINER_TOWER_MODE]                         = MULTICHOICE(sMultichoiceList_TrainerTowerMode),
     [MULTICHOICE_TRADER_SELL_FROM]                           = MULTICHOICE(sMultichoiceList_TraderSellFrom),
+    [MULTICHOICE_TRADER_MAIN]                                = MULTICHOICE(sMultichoiceList_TraderMain),
 };
 
 // From Cool to Berries goes unused
