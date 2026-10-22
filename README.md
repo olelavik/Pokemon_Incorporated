@@ -1,16 +1,50 @@
-# Pokémon FireRed and LeafGreen
+# Pokémon Incorporated
 
-This is a decompilation of English Pokémon FireRed and LeafGreen.
+*Gotta Buy 'Em All.*
 
-It builds the following ROM images:
+A capitalist satire of Pokémon FireRed. Pokémon are private commodities to be
+bought and sold, you start the game in debt to Professor Oak, and everything
+costs money: Pokémon Centers, gyms, forests, even Bill's PC.
 
-* [**pokefirered.gba**](https://datomatic.no-intro.org/?page=show_record&s=23&n=1616) `sha1: 41cb23d8dccc8ebd7c649cd8fbb58eeace6e2fdc`
-* [**pokeleafgreen.gba**](https://datomatic.no-intro.org/?page=show_record&s=23&n=1617) `sha1: 574fa542ffebb14be69902d1d36f1ec0a4afd71e`
-* [**pokefirered_rev1.gba**](https://datomatic.no-intro.org/?page=show_record&s=23&n=1672) `sha1: dd5945db9b930750cb39d00c84da8571feebf417`
-* [**pokeleafgreen_rev1.gba**](https://datomatic.no-intro.org/index.php?page=show_record&s=23&n=1668) `sha1: 7862c67bdecbe21d1d69ce082ce34327e1c6ed5e`
-* [**pokefirered_switch.gba**](https://datomatic.no-intro.org/index.php?page=show_record&s=23&n=x550) `sha1: baa452d0b24629dd7782cfc07a8984085dde1311`
-* [**pokeleafgreen_switch.gba**](https://datomatic.no-intro.org/index.php?page=show_record&s=23&n=x551) `sha1: 62b9fc77549dbc67032eb6cbd0ea6ad3b825690f`
+Built on the [pret/pokefirered](https://github.com/pret/pokefirered) decompilation.
+The original decomp README is in [README_DECOMP.md](README_DECOMP.md).
 
-To set up the repository, see [INSTALL.md](INSTALL.md).
+## Status: proof of concept
 
-For contacts and other pret projects, see [pret.github.io](https://pret.github.io/).
+| Feature | Status |
+| --- | --- |
+| Oak's intro: Pokémon are products | Done |
+| Boy (easy) / Girl (hard) select | Done |
+| Girls earn 25% less from all income | Done (`src/money.c`, `AddMoney`) |
+| Start with ₽0 and a Bicycle (resells for ₽4,000) | Done (`src/new_game.c`) |
+| Pokémon Centers cost ₽300 | Done (`data/scripts/pkmn_center_nurse.inc`) |
+| Expensive balls and healing items | Done (`src/data/items.json`) |
+| Buying the starter / Oak's loan | Planned |
+| Selling Pokémon, Pokémon shops | Planned |
+| Entry fees, toll booths | Planned |
+| Bill's PC free (ads) / premium | Planned |
+| Mom bailout when broke | Planned |
+
+## Playing
+
+Apply the `.bps` patch to your own **Pokémon FireRed (US) v1.0** ROM
+(`sha1: 41cb23d8dccc8ebd7c649cd8fbb58eeace6e2fdc`) using
+[Rom Patcher JS](https://www.marcrobledo.com/RomPatcher.js/) or Floating IPS.
+No ROMs are distributed here.
+
+## Building
+
+Follow [INSTALL.md](INSTALL.md) from the decomp, then run `make`. The output is
+`pokefirered.gba`.
+
+To make a patch, build the unmodified decomp once to get a clean base ROM, then:
+
+```
+flips --create --bps vanilla.gba pokefirered.gba PokemonIncorporated.bps
+```
+
+## Credits
+
+- Concept and design: olelavik
+- Code: written with Claude (Anthropic)
+- Decompilation: [pret](https://pret.github.io/)
