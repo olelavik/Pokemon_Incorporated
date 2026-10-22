@@ -35,7 +35,7 @@
     {
       "english": "ULTRA BALL",
       "itemId": "ITEM_ULTRA_BALL",
-      "price": 1200,
+      "price": 15000,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A very high-grade BALL that offers\\na higher POKéMON catch rate than\\na GREAT BALL.",
@@ -51,7 +51,7 @@
     {
       "english": "GREAT BALL",
       "itemId": "ITEM_GREAT_BALL",
-      "price": 600,
+      "price": 2500,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A good, quality BALL that offers\\na higher POKéMON catch rate than\\na standard POKé BALL.",
@@ -65,7 +65,7 @@
       "secondaryId": 2
     },
     {
-      "english": "POK\u00e9 BALL",
+      "english": "POKé BALL",
       "itemId": "ITEM_POKE_BALL",
       "price": 200,
       "holdEffect": "HOLD_EFFECT_NONE",
@@ -307,7 +307,7 @@
     {
       "english": "FULL RESTORE",
       "itemId": "ITEM_FULL_RESTORE",
-      "price": 3000,
+      "price": 12000,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 255,
       "description_english": "A medicine that fully restores the\\nHP and heals any status problems\\nof one POKéMON.",
@@ -1281,7 +1281,7 @@
       "secondaryId": 0
     },
     {
-      "english": "POK\u00e9 DOLL",
+      "english": "POKé DOLL",
       "itemId": "ITEM_POKE_DOLL",
       "price": 1000,
       "holdEffect": "HOLD_EFFECT_NONE",
@@ -5659,7 +5659,7 @@
       "secondaryId": 0
     },
     {
-      "english": "POK\u00e9 FLUTE",
+      "english": "POKé FLUTE",
       "itemId": "ITEM_POKE_FLUTE",
       "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
@@ -5821,7 +5821,7 @@
     {
       "english": "BICYCLE",
       "itemId": "ITEM_BICYCLE",
-      "price": 0,
+      "price": 8000,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A folding bicycle that allows\\nfaster movement than the RUNNING\\nSHOES.",

@@ -1,4 +1,6 @@
 #include "global.h"
+#include "constants/items.h"
+#include "item.h"
 #include "gflib.h"
 #include "random.h"
 #include "overworld.h"
@@ -125,7 +127,7 @@ void NewGameInitData(void)
     ClearPokedexFlags();
     InitEventData();
     ResetFameChecker();
-    SetMoney(&gSaveBlock1Ptr->money, 3000);
+    SetMoney(&gSaveBlock1Ptr->money, 0); // Dollar Bill Green: start broke
     ResetGameStats();
     ClearPlayerLinkBattleRecords();
     InitHeracrossSizeRecord();
@@ -137,6 +139,7 @@ void NewGameInitData(void)
     ClearRoamerData();
     gSaveBlock1Ptr->registeredItem = 0;
     ClearBag();
+    AddBagItem(ITEM_BICYCLE, 1); // Dollar Bill Green: start with a bike (sell it, you will need to)
     NewGameInitPCItems();
     ClearEnigmaBerries();
     InitEasyChatPhrases();

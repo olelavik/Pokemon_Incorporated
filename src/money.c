@@ -29,7 +29,13 @@ bool8 IsEnoughMoney(u32 *moneyPtr, u32 cost)
 
 void AddMoney(u32 *moneyPtr, u32 toAdd)
 {
-    u32 toSet = GetMoney(moneyPtr);
+    u32 toSet;
+
+    // Dollar Bill Green: girls earn 25% less from every source of income
+    if (moneyPtr == &gSaveBlock1Ptr->money && gSaveBlock2Ptr->playerGender == FEMALE)
+        toAdd -= toAdd / 4;
+
+    toSet = GetMoney(moneyPtr);
 
     // can't have more money than MAX
     if (toSet + toAdd > MAX_MONEY)

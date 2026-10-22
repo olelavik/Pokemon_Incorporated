@@ -887,8 +887,18 @@ gText_PkmnFainted3::
 
 Text_WelcomeWantToHealPkmn::
 	.string "Welcome to our POKéMON CENTER!\p"
-	.string "Would you like me to heal your\n"
-	.string "POKéMON back to perfect health?$"
+	.string "A full heal is ¥300.\n"
+	.string "No insurance? No problem.\p"
+	.string "Shall I heal your POKéMON?$"
+
+Text_CantAffordHeal::
+	.string "I'm sorry, you can't afford\n"
+	.string "treatment.\p"
+	.string "Have you considered asking\n"
+	.string "your mom?$"
+
+Text_ThankYouForPayment::
+	.string "Thank you for your payment!$"
 
 Text_TakeYourPkmnForFewSeconds::
 	.string "Okay, I'll take your POKéMON for a\n"

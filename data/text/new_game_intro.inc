@@ -155,8 +155,11 @@ gControlsGuide_Text_LRButtons::
     .string "press the L or R Button.$"
 
 gOakSpeech_Text_AskPlayerGender::
-    .string "Now tell me. Are you a boy?\n"
-    .string "Or are you a girl?$"
+    .string "Boys get paid in full. Girls earn\n"
+    .string "25% less. Don't ask me why…\p"
+    .string "That's just how the market works!\p"
+    .string "So tell me. Are you a boy (EASY)?\n"
+    .string "Or a girl (HARD)?$"
 
 gPikachuIntro_Text_Page1::
     .string "In the world which you are about to\n"
@@ -199,13 +202,15 @@ gOakSpeech_Text_ThisWorld::
 
 gOakSpeech_Text_IsInhabitedFarAndWide::
     .string "…is inhabited far and wide by\n"
-    .string "creatures called POKéMON.\p$"
+    .string "products called POKéMON.\p$"
 
 gOakSpeech_Text_IStudyPokemon::
     .string "For some people, POKéMON are pets.\n"
     .string "Others use them for battling.\p"
+    .string "But mostly, POKéMON are bought\n"
+    .string "and sold.\p"
     .string "As for myself…\p"
-    .string "I study POKéMON as a profession.\p$"
+    .string "I sell POKéMON as a profession.\p$"
 
 gOakSpeech_Text_TellMeALittleAboutYourself::
     .string "But first, tell me a little about\n"

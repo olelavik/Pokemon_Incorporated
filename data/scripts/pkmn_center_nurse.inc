@@ -1,12 +1,34 @@
 EventScript_PkmnCenterNurse::
 	goto_if_questlog EventScript_ReleaseEnd
+	showmoneybox 0, 0
 	message Text_WelcomeWantToHealPkmn
 	waitmessage
 	multichoice 19, 8, MULTICHOICE_YES_NO, FALSE | (TRUE << 1)
 	switch VAR_RESULT
-	case 0, EventScript_PkmnCenterNurse_HealPkmn
-	case 1 EventScript_PkmnCenterNurse_Goodbye
-	case SCR_MENU_CANCEL, EventScript_PkmnCenterNurse_Goodbye
+	case 0, EventScript_PkmnCenterNurse_TryPay
+	case 1 EventScript_PkmnCenterNurse_GoodbyeHideMoney
+	case SCR_MENU_CANCEL, EventScript_PkmnCenterNurse_GoodbyeHideMoney
+	end
+
+EventScript_PkmnCenterNurse_TryPay::
+	checkmoney 300
+	goto_if_eq VAR_RESULT, FALSE, EventScript_PkmnCenterNurse_CantAfford
+	removemoney 300
+	updatemoneybox
+	playse SE_SHOP
+	msgbox Text_ThankYouForPayment
+	hidemoneybox
+	goto EventScript_PkmnCenterNurse_HealPkmn
+	end
+
+EventScript_PkmnCenterNurse_CantAfford::
+	msgbox Text_CantAffordHeal
+	hidemoneybox
+	return
+
+EventScript_PkmnCenterNurse_GoodbyeHideMoney::
+	hidemoneybox
+	goto EventScript_PkmnCenterNurse_Goodbye
 	end
 
 EventScript_PkmnCenterNurse_HealPkmn::
