@@ -24,7 +24,9 @@ The original decomp README is in [README_DECOMP.md](README_DECOMP.md).
 | Oak's aide collects debt after every badge | Done (`OakDebt_Collect` in `src/money.c`, `data/scripts/oak_debt.inc`) |
 | Greedy NPCs, Pallet Town to Pewter City | Done |
 | Viridian old man: landowner lecture, no tutorial | Done |
-| Selling Pokémon, Pokémon shops | Planned |
+| Pokémon trader in every Center: sell from party or PC | Done (`src/pokemon_trader.c`, `data/scripts/pokemon_trader.inc`) |
+| Buying Pokémon from the trader | Planned |
+| Market saturation and price swings | Planned |
 | Entry fees, toll booths | Planned |
 | Bill's PC free (ads) / premium | Planned |
 | Mom bailout when broke | Planned |

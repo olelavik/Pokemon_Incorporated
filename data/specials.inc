@@ -453,4 +453,8 @@ gSpecials::
 	def_special LoopWingFlapSound
 	def_special CreateEnemyEventMon
 	def_special OakDebt_Collect
+	def_special Trader_PricePartyMon
+	def_special Trader_SellPartyMon
+	def_special Trader_ChooseBoxMon
+	def_special Trader_SellBoxMon
 gSpecialsEnd::

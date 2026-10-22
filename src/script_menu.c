@@ -498,6 +498,17 @@ static const struct MenuAction sMultichoiceList_TrainerTowerMode[] = {
     { gOtherText_Exit }
 };
 
+// Pokémon Inc: the Pokémon trader's "sell from" menu
+static const u8 sText_TraderParty[] = _("PARTY");
+static const u8 sText_TraderPcBox[] = _("PC BOX");
+static const u8 sText_TraderCancel[] = _("CANCEL");
+
+static const struct MenuAction sMultichoiceList_TraderSellFrom[] = {
+    { sText_TraderParty },
+    { sText_TraderPcBox },
+    { sText_TraderCancel }
+};
+
 static const struct MenuAction sMultichoiceList_Exit[] = {
     { gOtherText_Exit }
 };
@@ -568,6 +579,7 @@ static const struct MultichoiceListStruct sMultichoiceLists[] = {
     [MULTICHOICE_62]                                         = MULTICHOICE(sMultichoiceList_62),
     [MULTICHOICE_JOIN_OR_LEAD]                               = MULTICHOICE(sMultichoiceList_JoinOrLead),
     [MULTICHOICE_TRAINER_TOWER_MODE]                         = MULTICHOICE(sMultichoiceList_TrainerTowerMode),
+    [MULTICHOICE_TRADER_SELL_FROM]                           = MULTICHOICE(sMultichoiceList_TraderSellFrom),
 };
 
 // From Cool to Berries goes unused
