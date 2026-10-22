@@ -1,18 +1,20 @@
 PalletTown_RivalsHouse_Text_HiBrothersAtLab::
     .string "DAISY: Hi, {PLAYER}!\p"
-    .string "My brother, {RIVAL}, is out at\n"
-    .string "Grandpa's LAB.$"
+    .string "My brother, {RIVAL}, is at\n"
+    .string "Grandpa's shop.$"
 
 PalletTown_RivalsHouse_Text_HeardYouBattledRival::
-    .string "DAISY: {PLAYER}, I heard you had\n"
-    .string "a battle against {RIVAL}.\p"
-    .string "I wish I'd seen that!$"
+    .string "DAISY: {PLAYER}, I heard you\n"
+    .string "battled {RIVAL}.\p"
+    .string "He came home and counted his\n"
+    .string "money twice. Poor thing.$"
 
 PalletTown_RivalsHouse_Text_ErrandForGrandpaThisWillHelp::
-    .string "Grandpa asked you to run an\n"
-    .string "errand?\p"
-    .string "Gee, that's lazy of him.\n"
-    .string "Here, this will help you.$"
+    .string "Grandpa has you running unpaid\n"
+    .string "errands now?\p"
+    .string "{RIVAL} told me to charge you\n"
+    .string "¥1,000 for this.\p"
+    .string "Don't tell him. Here.$"
 
 PalletTown_RivalsHouse_Text_ReceivedTownMapFromDaisy::
     .string "{PLAYER} received a TOWN MAP\n"
@@ -28,18 +30,18 @@ PalletTown_RivalsHouse_Text_ExplainTownMap::
     .string "names of places.$"
 
 PalletTown_RivalsHouse_Text_PleaseGiveMonsRest::
-    .string "DAISY: Just like people, POKéMON\n"
-    .string "are living things.\p"
-    .string "When they get tired, please give\n"
-    .string "them a rest.$"
+    .string "DAISY: Grandpa says POKéMON are\n"
+    .string "products.\p"
+    .string "But they get tired, just like\n"
+    .string "people. Please let them rest.$"
 
 PalletTown_RivalsHouse_Text_ItsBigMapOfKanto::
-    .string "It's a big map of the KANTO region.\n"
-    .string "Now this would be useful!$"
+    .string "It's a big map of KANTO, with\n"
+    .string "property values marked in red.$"
 
 PalletTown_RivalsHouse_Text_ShelvesCrammedFullOfBooks::
-    .string "The shelves are crammed full of\n"
-    .string "books on POKéMON.$"
+    .string "The shelves are full of books.\n"
+    .string "GET RICH WITH POKéMON, vol. 1-40.$"
 
 PalletTown_RivalsHouse_Text_LikeMeToGroomMon::
     .string "DAISY: Hi, {PLAYER}!\n"

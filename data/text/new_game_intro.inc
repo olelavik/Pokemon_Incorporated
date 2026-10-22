@@ -191,43 +191,50 @@ gPikachuIntro_Text_Page3::
 
 gOakSpeech_Text_WelcomeToTheWorld::
     .string "Hello, there!\n"
-    .string "Glad to meet you!\p"
+    .string "Glad to meet you! Very glad!\p"
     .string "Welcome to the world of POKéMON!\p"
     .string "My name is OAK.\p"
-    .string "People affectionately refer to me\n"
-    .string "as the POKéMON PROFESSOR.\p$"
+    .string "People call me the POKéMON\n"
+    .string "PROFESSOR. And the POKéMON\l"
+    .string "SALESMAN of the YEAR.\p"
+    .string "$"
 
 gOakSpeech_Text_ThisWorld::
     .string "This world…$"
 
 gOakSpeech_Text_IsInhabitedFarAndWide::
-    .string "…is inhabited far and wide by\n"
-    .string "products called POKéMON.\p$"
+    .string "…is a marketplace, stocked with\n"
+    .string "products called POKéMON.\p"
+    .string "$"
 
 gOakSpeech_Text_IStudyPokemon::
-    .string "For some people, POKéMON are pets.\n"
-    .string "Others use them for battling.\p"
-    .string "But mostly, POKéMON are bought\n"
-    .string "and sold.\p"
+    .string "Some think POKéMON are pets.\n"
+    .string "Ha! Pets don't pay the rent!\p"
+    .string "POKéMON battle for prize money.\n"
+    .string "They're caught to be sold.\p"
     .string "As for myself…\p"
-    .string "I sell POKéMON as a profession.\p$"
+    .string "I sell POKéMON as a profession.\n"
+    .string "And business is booming!\p"
+    .string "$"
 
 gOakSpeech_Text_TellMeALittleAboutYourself::
-    .string "But first, tell me a little about\n"
-    .string "yourself.\p$"
+    .string "But first, I need your details.\n"
+    .string "For the paperwork.\p"
+    .string "$"
 
 gOakSpeech_Text_YourNameWhatIsIt::
     .string "Let's begin with your name.\n"
-    .string "What is it?\p$"
+    .string "For the contract, you see.\p"
+    .string "$"
 
 gOakSpeech_Text_SoYourNameIsPlayer::
     .string "Right…\n"
-    .string "So your name is {PLAYER}.$"
+    .string "So the debtor's name is {PLAYER}.$"
 
 gOakSpeech_Text_WhatWasHisName::
     .string "This is my grandson.\p"
-    .string "He's been your rival since you both\n"
-    .string "were babies.\p"
+    .string "He was born rich. You were not.\p"
+    .string "That's made him your rival.\p"
     .string "…Erm, what was his name now?$"
 
 gOakSpeech_Text_YourRivalsNameWhatWasIt::
@@ -238,11 +245,13 @@ gOakSpeech_Text_ConfirmRivalName::
 
 gOakSpeech_Text_RememberRivalsName::
     .string "That's right! I remember now!\n"
-    .string "His name is {RIVAL}!\p$"
+    .string "His name is {RIVAL}!\l"
+    .string "He's in my will, you know.\p"
+    .string "$"
 
 gOakSpeech_Text_LetsGo::
     .string "{PLAYER}!\p"
-    .string "Your very own POKéMON legend is\n"
-    .string "about to unfold!\p"
-    .string "A world of dreams and adventures\n"
-    .string "with POKéMON awaits! Let's go!$"
+    .string "Your very own POKéMON business\n"
+    .string "is about to open!\p"
+    .string "A world of profits and interest\n"
+    .string "rates awaits! Let's go!$"

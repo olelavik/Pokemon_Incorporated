@@ -4,6 +4,9 @@
 #include "menu.h"
 #include "text_window.h"
 #include "strings.h"
+#include "string_util.h"
+#include "constants/flags.h"
+#include "constants/vars.h"
 
 #define MAX_MONEY 999999
 
@@ -139,4 +142,94 @@ void HideMoneyBox(void)
     ClearStdWindowAndFrameToTransparent(sMoneyBoxWindowId, FALSE);
     CopyWindowToVram(sMoneyBoxWindowId, COPYWIN_GFX);
     RemoveWindow(sMoneyBoxWindowId);
+}
+
+// ---------------------------------------------------------------------------
+// Pokémon Incorporated: Oak Financial debt collection.
+// Called by EventScript_OakAideDebtCollection right after each Gym Badge.
+//
+// Each badge adds 14% interest. From the 2nd badge on, Oak's aide collects an
+// installment sized so the loan is paid off by the 8th badge. If you can't
+// pay, the aide takes everything you have and adds a late fee.
+//
+// Output (numbers, not strings: the money box overwrites gStringVar1 when it
+// redraws, so the script formats these after updating the money box):
+//   gSpecialVar_0x8004 = interest added
+//   gSpecialVar_0x8005 = amount paid
+//   gSpecialVar_0x8006 = DEBT_RESULT_*
+//   gSpecialVar_0x8007 = debt remaining
+// ---------------------------------------------------------------------------
+#define DEBT_INTEREST_PERCENT 14
+#define DEBT_LATE_FEE         500
+#define DEBT_MAX              0xFFFF
+
+enum {
+    DEBT_RESULT_NONE,          // nothing owed, aide doesn't show up
+    DEBT_RESULT_INTEREST_ONLY, // grace period: interest added, no payment
+    DEBT_RESULT_PAID,          // installment paid
+    DEBT_RESULT_COULDNT_PAY,   // took all your money + late fee
+    DEBT_RESULT_PAID_OFF,      // loan fully repaid
+};
+
+static u32 CountBadges(void)
+{
+    u32 i, count = 0;
+
+    for (i = FLAG_BADGE01_GET; i <= FLAG_BADGE08_GET; i++)
+    {
+        if (FlagGet(i))
+            count++;
+    }
+    return count;
+}
+
+void OakDebt_Collect(void)
+{
+    u32 debt = VarGet(VAR_OAK_DEBT);
+    u32 badges = CountBadges();
+    u32 interest, due, paid = 0, wallet, collectionsLeft;
+
+    if (debt == 0)
+    {
+        gSpecialVar_0x8006 = DEBT_RESULT_NONE;
+        return;
+    }
+
+    interest = debt * DEBT_INTEREST_PERCENT / 100;
+    debt += interest;
+
+    if (badges < 2)
+    {
+        gSpecialVar_0x8006 = DEBT_RESULT_INTEREST_ONLY;
+    }
+    else
+    {
+        // Badge 2 -> 7 payments left, ..., badge 8 -> pay everything.
+        collectionsLeft = (badges >= NUM_BADGES) ? 1 : (NUM_BADGES + 1 - badges);
+        due = (debt + collectionsLeft - 1) / collectionsLeft;
+        wallet = GetMoney(&gSaveBlock1Ptr->money);
+
+        if (wallet >= due)
+        {
+            paid = due;
+            debt -= due;
+            gSpecialVar_0x8006 = (debt == 0) ? DEBT_RESULT_PAID_OFF : DEBT_RESULT_PAID;
+        }
+        else
+        {
+            paid = wallet;
+            debt = debt - paid + DEBT_LATE_FEE;
+            gSpecialVar_0x8006 = DEBT_RESULT_COULDNT_PAY;
+        }
+        RemoveMoney(&gSaveBlock1Ptr->money, paid);
+    }
+
+    if (debt > DEBT_MAX)
+        debt = DEBT_MAX;
+    VarSet(VAR_OAK_DEBT, debt);
+
+    // All three fit in 16 bits: interest and payments never exceed DEBT_MAX.
+    gSpecialVar_0x8004 = interest;
+    gSpecialVar_0x8005 = paid;
+    gSpecialVar_0x8007 = debt;
 }

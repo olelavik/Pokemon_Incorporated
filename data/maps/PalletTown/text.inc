@@ -1,27 +1,28 @@
 PalletTown_Text_OakDontGoOut::
     .string "OAK: Hey! Wait!\n"
-    .string "Don't go out!$"
+    .string "That grass is private property!$"
 
 PalletTown_Text_OakGrassUnsafeNeedMon::
     .string "OAK: It's unsafe!\n"
-    .string "Wild POKéMON live in tall grass!\p"
-    .string "You need your own POKéMON for\n"
-    .string "your protection.\p"
-    .string "I know!\n"
-    .string "Here, come with me!$"
+    .string "You could get hurt, and you have\l"
+    .string "no insurance!\p"
+    .string "You need a POKéMON to protect\n"
+    .string "yourself out there.\p"
+    .string "And I happen to sell POKéMON!\n"
+    .string "What luck! Come with me!$"
 
 PalletTown_Text_RaisingMonsToo::
     .string "I'm raising POKéMON, too.\p"
-    .string "When they get strong, they can\n"
-    .string "protect me.$"
+    .string "When they get strong, I'll sell\n"
+    .string "them for a fortune.$"
 
 PalletTown_Text_CanStoreItemsAndMonsInPC::
     .string "Technology is incredible!\p"
-    .string "You can now store and recall items\n"
-    .string "and POKéMON as data via PC.$"
+    .string "You can store POKéMON in a PC now.\n"
+    .string "For a small monthly fee.$"
 
 PalletTown_Text_OakPokemonResearchLab::
-    .string "OAK POKéMON RESEARCH LAB$"
+    .string "OAK POKéMON SALES & FINANCE$"
 
 PalletTown_Text_PlayersHouse::
     .string "{PLAYER}'s house$"
@@ -31,37 +32,37 @@ PalletTown_Text_RivalsHouse::
 
 PalletTown_Text_TownSign::
     .string "PALLET TOWN\n"
-    .string "Shades of your journey await!$"
+    .string "Shades of your debt await!$"
 
 PalletTown_Text_OakLetMeSeePokedex::
     .string "OAK: Ah, {PLAYER}!\n"
-    .string "You're back, are you?\p"
-    .string "How much have you filled in your\n"
-    .string "POKéDEX?\p"
-    .string "May I see it?\p"
+    .string "Back to make a payment?\p"
+    .string "No? Then let's audit your\n"
+    .string "POKéDEX.\p"
+    .string "Hand it over.\p"
     .string "Let's see…$"
 
 PalletTown_Text_CaughtXPuttingInHonestEffort::
     .string "You've caught {STR_VAR_2}…\p"
-    .string "Hm, it looks as if you're putting\n"
-    .string "in an honest effort.\p"
-    .string "When you manage to fill it some\n"
-    .string "more, come show me, please.$"
+    .string "Hm. That's barely a business.\n"
+    .string "More of a hobby, really.\p"
+    .string "Come back when you have real\n"
+    .string "inventory, please.$"
 
 PalletTown_Text_CaughtXImpressiveFollowMe::
     .string "You've caught… {STR_VAR_2}!?\n"
-    .string "Now, this is impressive!\p"
-    .string "There's something I wanted to ask\n"
-    .string "of you, {PLAYER}.\p"
+    .string "That's a lot of inventory!\p"
+    .string "There's a business opportunity\n"
+    .string "I wanted to discuss, {PLAYER}.\p"
     .string "Come.\n"
     .string "Follow me.$"
 
 PalletTown_Text_OakYouEnjoyingTraveling::
     .string "OAK: Ah, {PLAYER}!\n"
-    .string "You seem to be enjoying traveling.\p"
-    .string "Knowing you, {PLAYER}, I can easily\n"
-    .string "imagine you going out to even more\l"
-    .string "exotic locales.\p"
+    .string "You seem to be traveling a lot.\p"
+    .string "Knowing you, {PLAYER}, you'll go\n"
+    .string "to even more exotic markets.\p"
     .string "Good for you, good for you.\n"
+    .string "Just remember who funded you.\l"
     .string "Hohoho.$"
 

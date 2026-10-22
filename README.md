@@ -19,11 +19,16 @@ The original decomp README is in [README_DECOMP.md](README_DECOMP.md).
 | Start with ₽0 and a Bicycle (resells for ₽4,000) | Done (`src/new_game.c`) |
 | Pokémon Centers cost ₽300 | Done (`data/scripts/pkmn_center_nurse.inc`) |
 | Expensive balls and healing items | Done (`src/data/items.json`) |
-| Buying the starter / Oak's loan | Planned |
+| Oak rewritten as a greedy salesman | Done |
+| Starter prices, Gary mocks you, Oak's 14% loan | Done (`PalletTown_ProfessorOaksLab`) |
+| Oak's aide collects debt after every badge | Done (`OakDebt_Collect` in `src/money.c`, `data/scripts/oak_debt.inc`) |
+| Greedy NPCs, Pallet Town to Pewter City | Done |
+| Viridian old man: landowner lecture, no tutorial | Done |
 | Selling Pokémon, Pokémon shops | Planned |
 | Entry fees, toll booths | Planned |
 | Bill's PC free (ads) / premium | Planned |
 | Mom bailout when broke | Planned |
+| Greedy NPCs past Pewter | Planned |
 
 ## Playing
 

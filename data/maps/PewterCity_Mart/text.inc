@@ -1,11 +1,13 @@
 PewterCity_Mart_Text_BoughtWeirdFishFromShadyGuy::
-    .string "A shady old guy sucked me into\n"
-    .string "buying this weird fish POKéMON!\p"
-    .string "It's totally weak and it cost ¥500!$"
+    .string "I bought a MAGIKARP for ¥500!\p"
+    .string "Everyone says it's useless.\n"
+    .string "But I read it evolves into a\l"
+    .string "GYARADOS worth ¥30,000!\p"
+    .string "That's what they call investing!$"
 
 PewterCity_Mart_Text_GoodThingsIfRaiseMonsDiligently::
-    .string "Good things can happen if you raise\n"
-    .string "POKéMON diligently.\p"
-    .string "Even the weak ones can surprise\n"
-    .string "you if you don't give up on them.$"
+    .string "Buy weak POKéMON cheap, raise\n"
+    .string "them, then sell them evolved.\p"
+    .string "That's the only honest money left\n"
+    .string "in KANTO.$"
 

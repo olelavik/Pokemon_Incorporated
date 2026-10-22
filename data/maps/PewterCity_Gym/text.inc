@@ -1,18 +1,15 @@
 PewterCity_Gym_Text_BrockIntro::
     .string "So, you're here. I'm BROCK.\n"
     .string "I'm PEWTER's GYM LEADER.\p"
-    .string "My rock-hard willpower is evident\n"
-    .string "even in my POKéMON.\p"
-    .string "My POKéMON are all rock hard, and\n"
-    .string "have true-grit determination.\p"
-    .string "That's right - my POKéMON are all\n"
-    .string "the ROCK type!\p"
-    .string "Fuhaha! You're going to challenge\n"
-    .string "me knowing that you'll lose?\p"
-    .string "That's the TRAINER's honor that\n"
-    .string "compels you to challenge me.\p"
+    .string "I have nine brothers and sisters\n"
+    .string "to feed.\p"
+    .string "So I battle for money. Lots of it.\p"
+    .string "My POKéMON are all ROCK type.\n"
+    .string "Rock-solid investments!\p"
+    .string "Fuhaha! You're challenging me,\n"
+    .string "knowing you'll lose your money?\p"
     .string "Fine, then!\n"
-    .string "Show me your best!{PLAY_BGM}{MUS_ENCOUNTER_GYM_LEADER}$"
+    .string "Show me your wallet!{PLAY_BGM}{MUS_ENCOUNTER_GYM_LEADER}$"
 
 @ NOTE: This defeat text actually causes a buffer overflow. It's too long for the gDisplayedStringBattle
 @ buffer that it's put into, and it stomps all over the gBattleTextBuffs after, as well as the otherwise
@@ -34,58 +31,51 @@ PewterCity_Gym_Text_BrockDefeat::
 
 PewterCity_Gym_Text_TakeThisWithYou::
     .string "Wait!\n"
-    .string "Take this with you.$"
+    .string "The LEAGUE makes me hand this out.$"
 
 PewterCity_Gym_Text_ReceivedTM39FromBrock::
     .string "{PLAYER} received TM39\n"
     .string "from BROCK.$"
 
 PewterCity_Gym_Text_ExplainTM39::
-    .string "A TM, Technical Machine, contains a\n"
-    .string "technique for POKéMON.\p"
-    .string "Using a TM teaches the move it\n"
-    .string "contains to a POKéMON.\p"
-    .string "A TM is good for only one use.\p"
-    .string "So, when you use one, pick the\n"
-    .string "POKéMON carefully.\p"
-    .string "Anyways…\n"
-    .string "TM39 contains ROCK TOMB.\p"
-    .string "It hurls boulders at the foe and\n"
-    .string "lowers its SPEED.$"
+    .string "A TM teaches a POKéMON a move.\n"
+    .string "It only works once.\p"
+    .string "TM39 contains ROCK TOMB.\n"
+    .string "It hurls boulders at the foe.\p"
+    .string "A POKéMON with a good move sells\n"
+    .string "for more. Remember that!$"
 
 PewterCity_Gym_Text_BrockPostBattle::
-    .string "There are all kinds of TRAINERS in\n"
-    .string "this huge world of ours.\p"
-    .string "You appear to be very gifted as a\n"
-    .string "POKéMON TRAINER.\p"
-    .string "So let me make a suggestion.\p"
-    .string "Go to the GYM in CERULEAN and test\n"
-    .string "your abilities.$"
+    .string "Losing money stings.\n"
+    .string "But I'll make it back from the\l"
+    .string "next challenger.\p"
+    .string "You have a talent for this,\n"
+    .string "kid. A money talent.\p"
+    .string "The CERULEAN GYM pays better.\n"
+    .string "Go test yourself there.$"
 
 PewterCity_Gym_Text_DontHaveRoomForThis::
     .string "You don't have room for this.$"
 
 PewterCity_Gym_Text_LiamIntro::
     .string "Stop right there, kid!\p"
-    .string "You're ten thousand light-years \n"
-    .string "from facing BROCK!$"
+    .string "You're ten thousand dollars\n"
+    .string "away from facing BROCK!$"
 
 PewterCity_Gym_Text_LiamDefeat::
     .string "Darn!\p"
-    .string "Light-years isn't time…\n"
-    .string "It measures distance!$"
+    .string "That was my rent money!$"
 
 PewterCity_Gym_Text_LiamPostBattle::
-    .string "You're pretty hot.\n"
-    .string "…But not as hot as BROCK!$"
+    .string "You're pretty good.\n"
+    .string "…But BROCK's richer!$"
 
 PewterCity_Gym_Text_LetMeTakeYouToTheTop::
     .string "Hiya!\n"
-    .string "Do you want to dream big?\p"
-    .string "Do you dare to dream of becoming\n"
-    .string "the POKéMON champ?\p"
-    .string "I'm no TRAINER, but I can advise\n"
-    .string "you on how to win.\p"
+    .string "Do you want to get rich?\p"
+    .string "Do you dare to dream of the\n"
+    .string "CHAMPION's prize money?\p"
+    .string "I'm no TRAINER, but I sell advice.\n"
     .string "Let me take you to the top!$"
 
 PewterCity_Gym_Text_LetsGetHappening::
@@ -101,12 +91,12 @@ PewterCity_Gym_Text_TryDifferentPartyOrders::
     .string "opponent's party.$"
 
 PewterCity_Gym_Text_ItsFreeLetsGetHappening::
-    .string "It's a free service!\n"
-    .string "Let's get happening!$"
+    .string "The first tip is free!\n"
+    .string "The rest are on a subscription.$"
 
 PewterCity_Gym_Text_YoureChampMaterial::
     .string "Just as I thought!\n"
-    .string "You're POKéMON champ material!$"
+    .string "You're POKéMON tycoon material!$"
 
 PewterCity_Gym_Text_GymStatue::
     .string "PEWTER POKéMON GYM\n"

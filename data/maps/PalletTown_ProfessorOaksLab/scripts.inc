@@ -658,6 +658,7 @@ PalletTown_ProfessorOaksLab_EventScript_ReceiveDexScene::
 	setvar VAR_MAP_SCENE_POKEMON_CENTER_TEALA, 1
 	msgbox PalletTown_ProfessorOaksLab_Text_OakCatchMonsForDataTakeThese
 	giveitem_msg PalletTown_ProfessorOaksLab_Text_ReceivedFivePokeBalls, ITEM_POKE_BALL, 5
+	call PalletTown_ProfessorOaksLab_EventScript_AddBallsToTab
 	msgbox PalletTown_ProfessorOaksLab_Text_OakExplainCatching
 	famechecker FAMECHECKER_OAK, 1
 	msgbox PalletTown_ProfessorOaksLab_Text_OakCompleteMonGuideWasMyDream
@@ -933,6 +934,7 @@ PalletTown_ProfessorOaksLab_EventScript_PlayerOutOfBalls::
 PalletTown_ProfessorOaksLab_EventScript_GivePlayerMoreBalls::
 	msgbox PalletTown_ProfessorOaksLab_Text_OakAddedNothingToPokedex
 	giveitem_msg PalletTown_ProfessorOaksLab_Text_ReceivedFivePokeBalls, ITEM_POKE_BALL, 5
+	call PalletTown_ProfessorOaksLab_EventScript_AddBallsToTab
 	setflag FLAG_GOT_POKEBALLS_FROM_OAK_AFTER_22_RIVAL
 	release
 	end
@@ -1091,19 +1093,19 @@ PalletTown_ProfessorOaksLab_EventScript_ConfirmStarterChoice::
 
 PalletTown_ProfessorOaksLab_EventScript_ConfirmBulbasaur::
 	msgbox PalletTown_ProfessorOaksLab_Text_OakChoosingBulbasaur, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, PalletTown_ProfessorOaksLab_EventScript_ChoseStarter
+	goto_if_eq VAR_RESULT, YES, PalletTown_ProfessorOaksLab_EventScript_BuyBulbasaur
 	goto_if_eq VAR_RESULT, NO, PalletTown_ProfessorOaksLab_EventScript_DeclinedStarter
 	end
 
 PalletTown_ProfessorOaksLab_EventScript_ConfirmSquirtle::
 	msgbox PalletTown_ProfessorOaksLab_Text_OakChoosingSquirtle, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, PalletTown_ProfessorOaksLab_EventScript_ChoseStarter
+	goto_if_eq VAR_RESULT, YES, PalletTown_ProfessorOaksLab_EventScript_BuySquirtle
 	goto_if_eq VAR_RESULT, NO, PalletTown_ProfessorOaksLab_EventScript_DeclinedStarter
 	end
 
 PalletTown_ProfessorOaksLab_EventScript_ConfirmCharmander::
 	msgbox PalletTown_ProfessorOaksLab_Text_OakChoosingCharmander, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, YES, PalletTown_ProfessorOaksLab_EventScript_ChoseStarter
+	goto_if_eq VAR_RESULT, YES, PalletTown_ProfessorOaksLab_EventScript_BuyCharmander
 	goto_if_eq VAR_RESULT, NO, PalletTown_ProfessorOaksLab_EventScript_DeclinedStarter
 	end
 
@@ -1112,8 +1114,77 @@ PalletTown_ProfessorOaksLab_EventScript_DeclinedStarter::
 	release
 	end
 
-PalletTown_ProfessorOaksLab_EventScript_ChoseStarter::
+@ ---- Pokémon Inc: buying the starter ----------------------------------
+PalletTown_ProfessorOaksLab_EventScript_BuyBulbasaur::
+	setvar VAR_OAK_LOAN_PRINCIPAL, 5000
 	hidemonpic
+	showmoneybox 0, 0
+	checkmoney 5000
+	goto_if_eq VAR_RESULT, FALSE, PalletTown_ProfessorOaksLab_EventScript_CantAffordStarter
+	removemoney 5000
+	goto PalletTown_ProfessorOaksLab_EventScript_PaidForStarter
+	end
+
+PalletTown_ProfessorOaksLab_EventScript_BuySquirtle::
+	setvar VAR_OAK_LOAN_PRINCIPAL, 7500
+	hidemonpic
+	showmoneybox 0, 0
+	checkmoney 7500
+	goto_if_eq VAR_RESULT, FALSE, PalletTown_ProfessorOaksLab_EventScript_CantAffordStarter
+	removemoney 7500
+	goto PalletTown_ProfessorOaksLab_EventScript_PaidForStarter
+	end
+
+PalletTown_ProfessorOaksLab_EventScript_BuyCharmander::
+	setvar VAR_OAK_LOAN_PRINCIPAL, 10000
+	hidemonpic
+	showmoneybox 0, 0
+	checkmoney 10000
+	goto_if_eq VAR_RESULT, FALSE, PalletTown_ProfessorOaksLab_EventScript_CantAffordStarter
+	removemoney 10000
+	goto PalletTown_ProfessorOaksLab_EventScript_PaidForStarter
+	end
+
+PalletTown_ProfessorOaksLab_EventScript_PaidForStarter::
+	setvar VAR_OAK_LOAN_PRINCIPAL, 0
+	updatemoneybox
+	playse SE_SHOP
+	msgbox PalletTown_ProfessorOaksLab_Text_OakPaidInCash
+	hidemoneybox
+	goto PalletTown_ProfessorOaksLab_EventScript_ChoseStarter
+	end
+
+PalletTown_ProfessorOaksLab_EventScript_CantAffordStarter::
+	buffernumberstring STR_VAR_1, VAR_OAK_LOAN_PRINCIPAL
+	msgbox PalletTown_ProfessorOaksLab_Text_OakCheckingYourFunds
+	closemessage
+	playse SE_PIN
+	applymovement LOCALID_OAKS_LAB_RIVAL, Common_Movement_ExclamationMark
+	waitmovement 0
+	msgbox PalletTown_ProfessorOaksLab_Text_RivalLaughsYoureBroke
+	msgbox PalletTown_ProfessorOaksLab_Text_OakOfferLoan, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, PalletTown_ProfessorOaksLab_EventScript_DeclinedLoan
+	copyvar VAR_OAK_DEBT, VAR_OAK_LOAN_PRINCIPAL
+	playse SE_EXP_MAX
+	msgbox PalletTown_ProfessorOaksLab_Text_SignedLoanContract
+	hidemoneybox
+	goto PalletTown_ProfessorOaksLab_EventScript_ChoseStarter
+	end
+
+PalletTown_ProfessorOaksLab_EventScript_DeclinedLoan::
+	msgbox PalletTown_ProfessorOaksLab_Text_OakNoMoneyNoMon
+	hidemoneybox
+	release
+	end
+
+PalletTown_ProfessorOaksLab_EventScript_AddBallsToTab::
+	addvar VAR_OAK_DEBT, 1000
+	buffernumberstring STR_VAR_1, VAR_OAK_DEBT
+	msgbox PalletTown_ProfessorOaksLab_Text_OakBallsOnYourTab
+	return
+@ ----------------------------------------------------------------------
+
+PalletTown_ProfessorOaksLab_EventScript_ChoseStarter::
 	removeobject VAR_LAST_TALKED
 	msgbox PalletTown_ProfessorOaksLab_Text_OakThisMonIsEnergetic
 	call EventScript_RestorePrevTextColor

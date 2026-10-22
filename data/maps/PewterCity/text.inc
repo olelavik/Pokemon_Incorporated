@@ -1,13 +1,11 @@
 Text_DreamEaterTeach::
     .string "Yawn!\n"
     .string "I must have dozed off in the sun.\p"
-    .string "I had this weird dream about\n"
-    .string "a DROWZEE eating my dream.\p"
-    .string "And…\n"
-    .string "I learned how to eat dreams…\p"
-    .string "Oogh, this is too spooky!\p"
-    .string "Let me teach it to a POKéMON so\n"
-    .string "I can forget about it!$"
+    .string "I dreamed a DROWZEE ate my dream.\n"
+    .string "Now I know how to eat dreams…\p"
+    .string "I'll teach it to your POKéMON.\n"
+    .string "Normally I'd charge, but I'm too\l"
+    .string "sleepy to haggle.$"
 
 Text_DreamEaterDeclined::
     .string "…Snore…$"
@@ -22,33 +20,34 @@ Text_DreamEaterTaught::
 
 PewterCity_Text_ClefairyCameFromMoon::
     .string "CLEFAIRY came from the moon.\n"
-    .string "That's what the rumor is.\p"
-    .string "They appeared after MOON STONES\n"
-    .string "fell on MT. MOON.$"
+    .string "That's the rumor.\p"
+    .string "Now everyone's mining MT. MOON\n"
+    .string "for MOON STONES. Gold rush!$"
 
 PewterCity_Text_BrockOnlySeriousTrainerHere::
-    .string "There aren't many serious POKéMON\n"
-    .string "TRAINERS here.\p"
-    .string "They're all like BUG CATCHERS,\n"
-    .string "you know, just hobbyists.\p"
-    .string "But PEWTER GYM's BROCK isn't like\n"
-    .string "that, not one bit.$"
+    .string "Most TRAINERS here are just\n"
+    .string "hobbyists. Broke ones.\p"
+    .string "But PEWTER GYM's BROCK? He runs\n"
+    .string "the gym like a business.\p"
+    .string "The entry fee alone pays for\n"
+    .string "his whole family.$"
 
 PewterCity_Text_DidYouCheckOutMuseum::
-    .string "Did you check out the MUSEUM?$"
+    .string "Did you pay to see the MUSEUM?$"
 
 PewterCity_Text_WerentThoseFossilsAmazing::
-    .string "Weren't those fossils from MT. MOON\n"
-    .string "amazing?$"
+    .string "Those fossils from MT. MOON!\n"
+    .string "Imagine what they'd sell for!$"
 
 PewterCity_Text_ReallyYouHaveToGo::
     .string "Really?\n"
-    .string "You absolutely have to go!$"
+    .string "You have to go! Bring cash!$"
 
 PewterCity_Text_ThisIsTheMuseum::
-    .string "This is it, the MUSEUM.\p"
-    .string "You have to pay to get in, but it's\n"
-    .string "worth it. See you around!$"
+    .string "This is the MUSEUM.\p"
+    .string "You have to pay to get in.\n"
+    .string "You have to pay for everything.\p"
+    .string "See you around!$"
 
 PewterCity_Text_DoYouKnowWhatImDoing::
     .string "Psssst!\n"
@@ -56,44 +55,47 @@ PewterCity_Text_DoYouKnowWhatImDoing::
 
 PewterCity_Text_ThatsRightItsHardWork::
     .string "That's right!\n"
-    .string "It's hard work!$"
+    .string "It's hard work, and nobody pays\l"
+    .string "me for it!$"
 
 PewterCity_Text_SprayingRepelToKeepWildMonsOut::
-    .string "I'm spraying REPEL to keep wild\n"
-    .string "POKéMON out of my garden!$"
+    .string "I'm spraying REPEL so nobody\n"
+    .string "catches POKéMON in my garden\l"
+    .string "for free!$"
 
 PewterCity_Text_BrocksLookingForChallengersFollowMe::
     .string "You're a TRAINER, right?\p"
-    .string "BROCK's looking for new\n"
+    .string "BROCK's looking for paying\n"
     .string "challengers. Follow me!$"
 
 PewterCity_Text_GoTakeOnBrock::
-    .string "If you have the right stuff,\n"
-    .string "go take on BROCK!$"
+    .string "If you've got the cash, go\n"
+    .string "take on BROCK!$"
 
 PewterCity_Text_TrainerTipsEarningEXP::
     .string "TRAINER TIPS\p"
-    .string "All POKéMON that appear in battle,\n"
-    .string "however briefly, earn EXP Points.$"
+    .string "POKéMON that join a battle earn\n"
+    .string "EXP. Higher levels, higher prices!$"
 
 PewterCity_Text_CallPoliceIfInfoOnThieves::
     .string "NOTICE!\p"
-    .string "Thieves have been stealing POKéMON\n"
-    .string "fossils from MT. MOON.\p"
-    .string "Please call the PEWTER POLICE if\n"
-    .string "you have any information.$"
+    .string "Thieves are stealing fossils from\n"
+    .string "MT. MOON.\p"
+    .string "The PEWTER POLICE offer a reward.\n"
+    .string "For a small processing fee.$"
 
 PewterCity_Text_MuseumOfScience::
-    .string "PEWTER MUSEUM OF SCIENCE$"
+    .string "PEWTER MUSEUM OF SCIENCE\n"
+    .string "Admission ¥50$"
 
 PewterCity_Text_GymSign::
     .string "PEWTER CITY POKéMON GYM\n"
     .string "LEADER: BROCK\l"
-    .string "The Rock-Solid POKéMON TRAINER!$"
+    .string "The Rock-Solid Investment!$"
 
 PewterCity_Text_CitySign::
     .string "PEWTER CITY\n"
-    .string "A Stone Gray City$"
+    .string "A Stone Gray Market$"
 
 @ The below 3 JP texts are unused. Possibly a cut NPC meant to give the player the Berry Pouch
 PewterCity_Text_DefeatedBrockYouCanHaveTreasure::
@@ -123,8 +125,8 @@ PewterCity_Text_OhPlayer::
 PewterCity_Text_AskedToDeliverThis::
     .string "I'm glad I caught up to you.\n"
     .string "I'm PROF. OAK's AIDE.\p"
-    .string "I've been asked to deliver this,\n"
-    .string "so here you go.$"
+    .string "Your mom bought you these.\n"
+    .string "She paid the shipping, too.$"
 
 PewterCity_Text_ReceivedRunningShoesFromAide::
     .string "{PLAYER} received the\n"
@@ -141,14 +143,15 @@ PewterCity_Text_ExplainRunningShoes::
 PewterCity_Text_MustBeGoingBackToLab::
     .string "Well, I must be going back to\n"
     .string "the LAB.\p"
-    .string "Bye-bye!$"
+    .string "I'll see you after your next\n"
+    .string "BADGE. With the invoice!$"
 
 PewterCity_Text_RunningShoesLetterFromMom::
     .string "There's a letter attached…\p"
     .string "Dear {PLAYER},\p"
-    .string "Here is a pair of RUNNING SHOES\n"
-    .string "for my beloved challenger.\p"
-    .string "Remember, I'll always cheer for\n"
-    .string "you! Don't ever give up!\p"
+    .string "Here are some RUNNING SHOES.\n"
+    .string "I skipped lunch for a month.\p"
+    .string "Don't let PROF. OAK bully you.\n"
+    .string "I'm proud of you!\p"
     .string "From Mom$"
 

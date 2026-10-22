@@ -15,6 +15,7 @@ CeladonCity_Gym_EventScript_DefeatedErika::
 	clearflag FLAG_HIDE_FAME_CHECKER_ERIKA_JOURNALS
 	setflag FLAG_DEFEATED_ERIKA
 	setflag FLAG_BADGE04_GET
+	call EventScript_OakAideDebtCollection
 	set_gym_trainers 4
 	goto CeladonCity_Gym_EventScript_GiveTM19
 	end
