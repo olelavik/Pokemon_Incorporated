@@ -3,9 +3,12 @@
 // The trader in every Pokémon Center buys Pokémon from your party or your PC
 // boxes. Prices come from a formula so all 386 species have a value:
 //
-//   base  = 80 * 2^((BST - 250) / 35)     value doubles every 35 base-stat points
+//   base  = 50 * 2^((BST - 250) / 35)     value doubles every 35 base-stat points
 //   price = base * (10 + level) / 20      Lv5 = 75%, Lv10 = 100%, Lv50 = 300%
-//   legendary x3, shiny x5, eggs can't be sold, capped at MAX_MONEY
+//   x rarity  sqrt(255 / catch rate of the first evolution stage)
+//   x shiny   20x, at least 100,000
+//   x Kanto Price Index (src/economy.c), capped at MAX_MONEY
+//   eggs can't be sold
 //
 // So low-level catches are pocket change, while raising and evolving a
 // Pokémon multiplies its value. That's the investing loop.
@@ -24,6 +27,7 @@
 // (STR_VAR_1 is avoided on purpose: the money box overwrites it.)
 #include "global.h"
 #include "gflib.h"
+#include "economy.h"
 #include "data.h"
 #include "event_data.h"
 #include "item.h"
@@ -63,26 +67,13 @@ enum {
     TRADER_SENT_TO_PC,  // bought, but the party was full
 };
 
-static const u16 sLegendaries[] = {
-    SPECIES_ARTICUNO, SPECIES_ZAPDOS, SPECIES_MOLTRES, SPECIES_MEWTWO, SPECIES_MEW,
-    SPECIES_RAIKOU, SPECIES_ENTEI, SPECIES_SUICUNE, SPECIES_LUGIA, SPECIES_HO_OH, SPECIES_CELEBI,
-    SPECIES_REGIROCK, SPECIES_REGICE, SPECIES_REGISTEEL, SPECIES_LATIAS, SPECIES_LATIOS,
-    SPECIES_KYOGRE, SPECIES_GROUDON, SPECIES_RAYQUAZA, SPECIES_JIRACHI, SPECIES_DEOXYS,
-};
+#include "data/pokemon_trader_rarity.h"
 
-static bool32 IsLegendary(u16 species)
-{
-    u32 i;
+#define VALUE_BASE        50      // a BST-250 Pokémon at Lv10, before rarity and inflation
+#define SHINY_MULTIPLIER  20
+#define SHINY_MINIMUM     100000  // any shiny is a jackpot
 
-    for (i = 0; i < ARRAY_COUNT(sLegendaries); i++)
-    {
-        if (sLegendaries[i] == species)
-            return TRUE;
-    }
-    return FALSE;
-}
-
-// 80 * 2^((bst - 250) / 35), using whole doublings plus a linear blend for
+// 50 * 2^((bst - 250) / 35), using whole doublings plus a linear blend for
 // the remainder (1 + r/35 is within ~6% of 2^(r/35)). No floats on the GBA.
 static u32 GetBaseValue(u16 species)
 {
@@ -90,7 +81,7 @@ static u32 GetBaseValue(u16 species)
     s32 bst = info->baseHP + info->baseAttack + info->baseDefense
             + info->baseSpeed + info->baseSpAttack + info->baseSpDefense;
     s32 steps = bst - 250;
-    u32 value = 80;
+    u32 value = VALUE_BASE;
 
     if (steps >= 0)
     {
@@ -108,14 +99,57 @@ static u32 GetBaseValue(u16 species)
     return value;
 }
 
+static u32 IntSqrt(u32 n)
+{
+    u32 r = 0, bit = 1u << 30;
+
+    while (bit > n)
+        bit >>= 2;
+    while (bit != 0)
+    {
+        if (n >= r + bit)
+        {
+            n -= r + bit;
+            r = (r >> 1) + bit;
+        }
+        else
+        {
+            r >>= 1;
+        }
+        bit >>= 2;
+    }
+    return r;
+}
+
+// Rarity factor in percent: sqrt(255 / catch rate of the first evolution
+// stage). Rattata line x1.0, Eevee/Scyther/Dratini x2.4, Snorlax x3.2,
+// legendaries (catch rate 3) x9.2.
+static u32 GetRarityPercent(u16 species)
+{
+    u32 rate = sBaseFormCatchRate[species];
+
+    if (rate == 0)
+        rate = gSpeciesInfo[species].catchRate;
+    if (rate == 0)
+        rate = 255;
+    return IntSqrt(255 * 10000 / rate);
+}
+
+// Full market value before the girl penalty and market saturation.
 static u32 GetTraderPrice(u16 species, u8 level, bool32 shiny)
 {
     u32 price = GetBaseValue(species) * (10 + level) / 20;
 
-    if (IsLegendary(species))
-        price *= 3;
+    price = price * GetRarityPercent(species) / 100;
     if (shiny)
-        price *= 5;
+    {
+        price *= SHINY_MULTIPLIER;
+        if (price < SHINY_MINIMUM)
+            price = SHINY_MINIMUM;
+    }
+    if (price > MAX_MONEY)
+        price = MAX_MONEY;     // keep the inflation multiply below from overflowing
+    price = Economy_Inflate(price);
     if (price > MAX_MONEY)
         price = MAX_MONEY;
     if (price == 0)
@@ -575,22 +609,11 @@ static u32 GetBuyPrice(const struct TraderStock *stock)
     return price > MAX_MONEY ? MAX_MONEY : price;
 }
 
-static u32 CountBadges(void)
-{
-    u32 i, count = 0;
-
-    for (i = FLAG_BADGE01_GET; i <= FLAG_BADGE08_GET; i++)
-    {
-        if (FlagGet(i))
-            count++;
-    }
-    return count;
-}
 
 void Trader_ChooseBuyMon(void)
 {
     const struct TraderShop *shop = GetCurrentShop();
-    u32 i, badges = CountBadges();
+    u32 i, badges = Economy_CountBadges();
 
     if (shop == NULL)
     {

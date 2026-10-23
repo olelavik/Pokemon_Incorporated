@@ -167,6 +167,16 @@
       "dest_warp_id": "0"
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 4,
+      "y": 2,
+      "elevation": 3,
+      "var": "VAR_TEMP_1",
+      "var_value": "0",
+      "script": "IndigoPlateau_PokemonCenter_1F_EventScript_LeagueFee"
+    }
+  ],
   "bg_events": []
 }

@@ -459,4 +459,10 @@ gSpecials::
 	def_special Trader_SellBoxMon
 	def_special Trader_ChooseBuyMon
 	def_special Trader_BuyMon
+	def_special Economy_PrepareCost
+	def_special Economy_PrepareFlatCost
+	def_special Economy_CanAfford
+	def_special Economy_Pay
+	def_special Economy_GiveFlatMoney
+	def_special Economy_BufferPriceIndex
 gSpecialsEnd::

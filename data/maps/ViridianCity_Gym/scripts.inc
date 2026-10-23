@@ -2,6 +2,10 @@ ViridianCity_Gym_MapScripts::
 	.byte 0
 
 ViridianCity_Gym_EventScript_Giovanni::
+	goto_if_set FLAG_BADGE08_GET, ViridianCity_Gym_EventScript_Giovanni_Fight
+	call EventScript_GymChallengeFee
+	goto_if_eq VAR_RESULT, FALSE, EventScript_ReleaseEnd
+ViridianCity_Gym_EventScript_Giovanni_Fight::
 	famechecker FAMECHECKER_GIOVANNI, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_LEADER_GIOVANNI, ViridianCity_Gym_Text_GiovanniIntro, ViridianCity_Gym_Text_GiovanniDefeat, ViridianCity_Gym_EventScript_DefeatedGiovanni, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM26_FROM_GIOVANNI, ViridianCity_Gym_EventScript_GiveTM26
@@ -19,6 +23,7 @@ ViridianCity_Gym_EventScript_DefeatedGiovanni::
 	setflag FLAG_DEFEATED_LEADER_GIOVANNI
 	setflag FLAG_BADGE08_GET
 	call EventScript_OakAideDebtCollection
+	call EventScript_PriceIndexNews
 	setvar VAR_MAP_SCENE_ROUTE22, 3
 	set_gym_trainers 8
 	goto ViridianCity_Gym_EventScript_GiveTM26

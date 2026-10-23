@@ -1,4 +1,5 @@
 #include "global.h"
+#include "economy.h"
 #include "gflib.h"
 #include "berry.h"
 #include "event_data.h"
@@ -618,9 +619,10 @@ u16 ItemId_GetId(u16 itemId)
     return gItems[SanitizeItemId(itemId)].itemId;
 }
 
-u16 ItemId_GetPrice(u16 itemId)
+// Pokémon Inc: every item price follows the Kanto Price Index (src/economy.c)
+u32 ItemId_GetPrice(u16 itemId)
 {
-    return gItems[SanitizeItemId(itemId)].price;
+    return Economy_Inflate(gItems[SanitizeItemId(itemId)].price);
 }
 
 u8 ItemId_GetHoldEffect(u16 itemId)

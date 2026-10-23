@@ -30,7 +30,10 @@ The original decomp README is in [README_DECOMP.md](README_DECOMP.md).
 | Market saturation: -25% per repeat sale, recovers every 1,000 steps | Done |
 | Pokémon Exchange buildings: Viridian, Pewter, Cerulean, Celadon (flagship) | Done (`tools/pokemon_inc/add_exchange.py`) |
 | Exchange buildings: Vermilion, Lavender, Fuchsia, Saffron, Cinnabar | Planned |
-| Price swings per badge | Planned |
+| Kanto Price Index: prices x1.0 -> x7.5 by badges, wages x0.85 -> x3.3 | Done (`src/economy.c`, model in `tools/pokemon_inc/model`) |
+| Gym challenge fee, League fee 100,000 / jackpot 500,000 | Done |
+| Rare Pokémon flee after failed throws | Proposed |
+| Market events (crashes, booms) | Planned |
 | Entry fees, toll booths | Planned |
 | Bill's PC free (ads) / premium | Planned |
 | Mom bailout when broke | Planned |

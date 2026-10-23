@@ -9,10 +9,10 @@ IndigoPlateau_PokemonCenter_1F_Text_GymGuyAdvice::
     .string "Go for it!$"
 
 IndigoPlateau_PokemonCenter_1F_Text_FaceEliteFourGoodLuck::
-    .string "From here on, you face the\n"
-    .string "ELITE FOUR one by one.\p"
-    .string "If you win, a door opens to the\n"
-    .string "next TRAINER. Good luck!$"
+    .string "Beyond this door, the ELITE FOUR.\p"
+    .string "The fee is ¥100,000 per attempt.\n"
+    .string "The CHAMPION wins ¥500,000.\p"
+    .string "Do the math, TRAINER.$"
 
 IndigoPlateau_PokemonCenter_1F_Text_LoreleiIsAbsentClosedForTimeBeing::
     .string "I am so sorry, but you've wasted\n"
@@ -41,3 +41,20 @@ IndigoPlateau_PokemonCenter_1F_Text_LancesCousinGymLeaderFarAway::
     .string "a cousin who's a GYM LEADER\l"
     .string "somewhere far away.$"
 
+
+IndigoPlateau_PokemonCenter_1F_Text_LeagueFee::
+    .string "Hold it! The ELITE FOUR charge an\n"
+    .string "entry fee. ¥{STR_VAR_2}.\p"
+    .string "Every attempt. Win or lose.\n"
+    .string "No prize money inside.\p"
+    .string "But become CHAMPION, and you take\n"
+    .string "home ¥500,000! Pay the fee?$"
+
+IndigoPlateau_PokemonCenter_1F_Text_LeagueFeePaid::
+    .string "Payment received.\n"
+    .string "Good luck. You'll need it.$"
+
+IndigoPlateau_PokemonCenter_1F_Text_LeagueFeeCantAfford::
+    .string "You don't have ¥100,000?\p"
+    .string "The POKéMON EXCHANGE is always\n"
+    .string "happy to help you raise funds.$"

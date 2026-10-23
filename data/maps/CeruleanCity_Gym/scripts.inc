@@ -2,6 +2,10 @@ CeruleanCity_Gym_MapScripts::
 	.byte 0
 
 CeruleanCity_Gym_EventScript_Misty::
+	goto_if_set FLAG_BADGE02_GET, CeruleanCity_Gym_EventScript_Misty_Fight
+	call EventScript_GymChallengeFee
+	goto_if_eq VAR_RESULT, FALSE, EventScript_ReleaseEnd
+CeruleanCity_Gym_EventScript_Misty_Fight::
 	famechecker FAMECHECKER_MISTY, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_LEADER_MISTY, CeruleanCity_Gym_Text_MistyIntro, CeruleanCity_Gym_Text_MistyDefeat, CeruleanCity_Gym_EventScript_MistyDefeated, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM03_FROM_MISTY, CeruleanCity_Gym_EventScript_GiveTM03
@@ -14,6 +18,7 @@ CeruleanCity_Gym_EventScript_MistyDefeated::
 	setflag FLAG_DEFEATED_MISTY
 	setflag FLAG_BADGE02_GET
 	call EventScript_OakAideDebtCollection
+	call EventScript_PriceIndexNews
 	setrespawn HEAL_LOCATION_CERULEAN_CITY
 	set_gym_trainers 2
 	goto CeruleanCity_Gym_EventScript_GiveTM03

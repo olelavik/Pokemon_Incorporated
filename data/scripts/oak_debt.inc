@@ -83,3 +83,70 @@ Text_OakAidePaidOff::
 	.string "…Your loan is paid off!\p"
 	.string "PROF. OAK thanks you for your\n"
 	.string "business. He'll miss you dearly.$"
+
+@ ---- Pokémon Inc: gym challenge fee, paid before every attempt -----------
+EventScript_GymChallengeFee::
+	lock
+	faceplayer
+	setvar VAR_0x8004, 800
+	special Economy_PrepareCost
+	showmoneybox 0, 0
+	msgbox Text_GymChallengeFee, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, EventScript_GymChallengeFee_Declined
+	special Economy_CanAfford
+	goto_if_eq VAR_RESULT, FALSE, EventScript_GymChallengeFee_CantAfford
+	special Economy_Pay
+	updatemoneybox
+	playse SE_SHOP
+	msgbox Text_GymChallengeFeePaid
+	hidemoneybox
+	setvar VAR_RESULT, TRUE
+	return
+
+EventScript_GymChallengeFee_Declined::
+	hidemoneybox
+	msgbox Text_GymChallengeFeeDeclined
+	setvar VAR_RESULT, FALSE
+	return
+
+EventScript_GymChallengeFee_CantAfford::
+	hidemoneybox
+	msgbox Text_GymChallengeFeeCantAfford
+	setvar VAR_RESULT, FALSE
+	return
+
+@ ---- Pokémon Inc: news flash after every badge -----------------------------
+EventScript_PriceIndexNews::
+	special Economy_BufferPriceIndex
+	textcolor NPC_TEXT_COLOR_NEUTRAL
+	playse SE_PC_ON
+	msgbox Text_PriceIndexNews
+	call EventScript_RestorePrevTextColor
+	return
+
+Text_GymChallengeFee::
+	.string "Before we battle, there's the\n"
+	.string "challenge fee. ¥{STR_VAR_2}.\p"
+	.string "The LEAGUE sets the price.\n"
+	.string "Win or lose, no refunds. Pay?$"
+
+Text_GymChallengeFeePaid::
+	.string "Payment received.\n"
+	.string "Now then, let's battle!$"
+
+Text_GymChallengeFeeDeclined::
+	.string "No fee, no battle.\n"
+	.string "That's how the LEAGUE works.$"
+
+Text_GymChallengeFeeCantAfford::
+	.string "You can't even afford the fee?\p"
+	.string "Come back when you have\n"
+	.string "something to lose.$"
+
+Text_PriceIndexNews::
+	.string "KANTO NEWS FLASH!\p"
+	.string "Prices rise again across KANTO!\n"
+	.string "The KANTO PRICE INDEX is now\l"
+	.string "{STR_VAR_2}%.\p"
+	.string "Economists blame young TRAINERS\n"
+	.string "with too many BADGES.$"

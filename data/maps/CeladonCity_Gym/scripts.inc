@@ -2,6 +2,10 @@ CeladonCity_Gym_MapScripts::
 	.byte 0
 
 CeladonCity_Gym_EventScript_Erika::
+	goto_if_set FLAG_BADGE04_GET, CeladonCity_Gym_EventScript_Erika_Fight
+	call EventScript_GymChallengeFee
+	goto_if_eq VAR_RESULT, FALSE, EventScript_ReleaseEnd
+CeladonCity_Gym_EventScript_Erika_Fight::
 	famechecker FAMECHECKER_ERIKA, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_LEADER_ERIKA, CeladonCity_Gym_Text_ErikaIntro, CeladonCity_Gym_Text_ErikaDefeat, CeladonCity_Gym_EventScript_DefeatedErika, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM19_FROM_ERIKA, CeladonCity_Gym_EventScript_GiveTM19
@@ -16,6 +20,7 @@ CeladonCity_Gym_EventScript_DefeatedErika::
 	setflag FLAG_DEFEATED_ERIKA
 	setflag FLAG_BADGE04_GET
 	call EventScript_OakAideDebtCollection
+	call EventScript_PriceIndexNews
 	set_gym_trainers 4
 	goto CeladonCity_Gym_EventScript_GiveTM19
 	end

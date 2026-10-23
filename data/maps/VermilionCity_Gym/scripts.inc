@@ -204,6 +204,10 @@ VermilionCity_Gym_EventScript_SetBeamsOn::
 	return
 
 VermilionCity_Gym_EventScript_LtSurge::
+	goto_if_set FLAG_BADGE03_GET, VermilionCity_Gym_EventScript_LtSurge_Fight
+	call EventScript_GymChallengeFee
+	goto_if_eq VAR_RESULT, FALSE, EventScript_ReleaseEnd
+VermilionCity_Gym_EventScript_LtSurge_Fight::
 	famechecker FAMECHECKER_LTSURGE, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_LEADER_LT_SURGE, VermilionCity_Gym_Text_LtSurgeIntro, VermilionCity_Gym_Text_LtSurgeDefeat, VermilionCity_Gym_EventScript_DefeatedLtSurge, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM34_FROM_SURGE, VermilionCity_Gym_EventScript_GiveTM34
@@ -218,6 +222,7 @@ VermilionCity_Gym_EventScript_DefeatedLtSurge::
 	setflag FLAG_DEFEATED_LT_SURGE
 	setflag FLAG_BADGE03_GET
 	call EventScript_OakAideDebtCollection
+	call EventScript_PriceIndexNews
 	set_gym_trainers 3
 	goto VermilionCity_Gym_EventScript_GiveTM34
 	end

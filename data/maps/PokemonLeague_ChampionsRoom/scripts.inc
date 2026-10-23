@@ -63,6 +63,7 @@ PokemonLeague_ChampionsRoom_EventScript_EnterRoom::
 	setflag FLAG_DEFEATED_CHAMP
 	setflag FLAG_TEMP_4
 	msgbox PokemonLeague_ChampionsRoom_Text_PostBattle
+	call PokemonLeague_ChampionsRoom_EventScript_Jackpot
 	playbgm MUS_SLOW_PALLET, 0
 	addobject LOCALID_CHAMPIONS_ROOM_PROF_OAK
 	msgbox PokemonLeague_ChampionsRoom_Text_OakPlayer
@@ -224,3 +225,17 @@ PokemonLeague_ChampionsRoom_Movement_RivalWatchOakEnter::
 	delay_16
 	walk_in_place_faster_left
 	step_end
+
+@ Pokémon Inc: no prize money from the Elite Four or the Champion battle,
+@ only this jackpot for becoming Champion.
+PokemonLeague_ChampionsRoom_EventScript_Jackpot::
+	textcolor NPC_TEXT_COLOR_NEUTRAL
+	setvar VAR_0x8004, 5000
+	special Economy_GiveFlatMoney
+	showmoneybox 0, 0
+	playfanfare MUS_OBTAIN_BADGE
+	msgbox PokemonLeague_ChampionsRoom_Text_Jackpot
+	waitfanfare
+	hidemoneybox
+	textcolor NPC_TEXT_COLOR_MALE
+	return

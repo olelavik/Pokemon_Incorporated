@@ -895,8 +895,8 @@ gText_PkmnFainted3::
 
 Text_WelcomeWantToHealPkmn::
 	.string "Welcome to our POKéMON CENTER!\p"
-	.string "A full heal is ¥300.\n"
-	.string "No insurance? No problem.\p"
+	.string "A full heal is ¥{STR_VAR_2} today.\n"
+	.string "Prices may change without notice.\p"
 	.string "Shall I heal your POKéMON?$"
 
 Text_CantAffordHeal::

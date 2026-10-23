@@ -99,3 +99,8 @@ PokemonLeague_ChampionsRoom_Text_OakPlayerComeWithMe::
     .string "{PLAYER}!\n"
     .string "Come with me!$"
 
+
+PokemonLeague_ChampionsRoom_Text_Jackpot::
+    .string "{PLAYER} became the CHAMPION!\p"
+    .string "{PLAYER} won the LEAGUE JACKPOT\n"
+    .string "of ¥500,000!$"

@@ -1,4 +1,5 @@
 #include "global.h"
+#include "economy.h"
 #include "gflib.h"
 #include "item.h"
 #include "util.h"
@@ -5371,6 +5372,12 @@ static void Cmd_getmoneyreward(void)
             }
             party4 = gTrainers[gTrainerBattleOpponent_A].party.ItemCustomMoves; // Needed to Match. Has no effect.
             moneyReward = 4 * lastMonLevel * gBattleStruct->moneyMultiplier * (gBattleTypeFlags & BATTLE_TYPE_DOUBLE ? 2 : 1) * gTrainerMoneyTable[i].value;
+            // Pokémon Inc: prize money follows the wage index; the League pays
+            // nothing per battle, only the jackpot for becoming Champion.
+            moneyReward = Economy_ApplyWages(moneyReward);
+            if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_ELITE_FOUR
+             || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_CHAMPION)
+                moneyReward = 0;
         }
         AddMoney(&gSaveBlock1Ptr->money, moneyReward);
     }

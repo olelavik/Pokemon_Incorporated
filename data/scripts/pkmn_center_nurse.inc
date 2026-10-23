@@ -1,5 +1,7 @@
 EventScript_PkmnCenterNurse::
 	goto_if_questlog EventScript_ReleaseEnd
+	setvar VAR_0x8004, 300
+	special Economy_PrepareCost
 	showmoneybox 0, 0
 	message Text_WelcomeWantToHealPkmn
 	waitmessage
@@ -11,9 +13,9 @@ EventScript_PkmnCenterNurse::
 	end
 
 EventScript_PkmnCenterNurse_TryPay::
-	checkmoney 300
+	special Economy_CanAfford
 	goto_if_eq VAR_RESULT, FALSE, EventScript_PkmnCenterNurse_CantAfford
-	removemoney 300
+	special Economy_Pay
 	updatemoneybox
 	playse SE_SHOP
 	msgbox Text_ThankYouForPayment

@@ -2,6 +2,10 @@ FuchsiaCity_Gym_MapScripts::
 	.byte 0
 
 FuchsiaCity_Gym_EventScript_Koga::
+	goto_if_set FLAG_BADGE05_GET, FuchsiaCity_Gym_EventScript_Koga_Fight
+	call EventScript_GymChallengeFee
+	goto_if_eq VAR_RESULT, FALSE, EventScript_ReleaseEnd
+FuchsiaCity_Gym_EventScript_Koga_Fight::
 	famechecker FAMECHECKER_KOGA, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_LEADER_KOGA, FuchsiaCity_Gym_Text_KogaIntro, FuchsiaCity_Gym_Text_KogaDefeat, FuchsiaCity_Gym_EventScript_DefeatedKoga, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM06_FROM_KOGA, FuchsiaCity_Gym_EventScript_GiveTM06
@@ -15,6 +19,7 @@ FuchsiaCity_Gym_EventScript_DefeatedKoga::
 	setflag FLAG_DEFEATED_KOGA
 	setflag FLAG_BADGE05_GET
 	call EventScript_OakAideDebtCollection
+	call EventScript_PriceIndexNews
 	set_gym_trainers 5
 	goto FuchsiaCity_Gym_EventScript_GiveTM06
 	end

@@ -68,3 +68,39 @@ IndigoPlateau_PokemonCenter_1F_EventScript_Nurse::
 	call EventScript_PkmnCenterNurse
 	release
 	end
+
+@ Pokémon Inc: the POKéMON LEAGUE entry fee, paid on every attempt.
+IndigoPlateau_PokemonCenter_1F_EventScript_LeagueFee::
+	lockall
+	textcolor NPC_TEXT_COLOR_MALE
+	applymovement LOCALID_LEAGUE_DOOR_GUARD, Common_Movement_WalkInPlaceFasterLeft
+	waitmovement 0
+	setvar VAR_0x8004, 1000
+	special Economy_PrepareFlatCost
+	showmoneybox 0, 0
+	msgbox IndigoPlateau_PokemonCenter_1F_Text_LeagueFee, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, IndigoPlateau_PokemonCenter_1F_EventScript_LeagueFeeTurnBack
+	special Economy_CanAfford
+	goto_if_eq VAR_RESULT, FALSE, IndigoPlateau_PokemonCenter_1F_EventScript_LeagueFeeCantAfford
+	special Economy_Pay
+	updatemoneybox
+	playse SE_SHOP
+	msgbox IndigoPlateau_PokemonCenter_1F_Text_LeagueFeePaid
+	hidemoneybox
+	setvar VAR_TEMP_1, 1
+	releaseall
+	end
+
+IndigoPlateau_PokemonCenter_1F_EventScript_LeagueFeeCantAfford::
+	msgbox IndigoPlateau_PokemonCenter_1F_Text_LeagueFeeCantAfford
+IndigoPlateau_PokemonCenter_1F_EventScript_LeagueFeeTurnBack::
+	hidemoneybox
+	closemessage
+	applymovement LOCALID_PLAYER, IndigoPlateau_PokemonCenter_1F_Movement_StepBack
+	waitmovement 0
+	releaseall
+	end
+
+IndigoPlateau_PokemonCenter_1F_Movement_StepBack::
+	walk_down
+	step_end

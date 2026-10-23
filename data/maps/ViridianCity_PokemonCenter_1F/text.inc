@@ -6,8 +6,8 @@ ViridianCity_PokemonCenter_1F_Text_FeelFreeToUsePC::
 ViridianCity_PokemonCenter_1F_Text_PokeCenterInEveryTown::
     .string "There's a POKéMON CENTER in every\n"
     .string "town ahead.\p"
-    .string "They charge ¥300 a heal now.\n"
-    .string "Used to be free, back in my day.\p"
+    .string "They charge for heals now, and the\n"
+    .string "price goes up with every BADGE.\p"
     .string "Budget your heals, kid.$"
 
 ViridianCity_PokemonCenter_1F_Text_PokeCentersHealMons::
