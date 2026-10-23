@@ -1,4 +1,4 @@
-import sys; sys.path.insert(0, __import__('os').path.dirname(__file__))
+import os, sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from economy import BASE, INDEX
 def sell_value(bst, lvl, badges, base=50):
     steps=bst-250; v=base

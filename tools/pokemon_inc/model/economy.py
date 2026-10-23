@@ -1,6 +1,6 @@
 """Pokémon Incorporated economy model. All prices are badge-0 base prices;
 the game multiplies them by the Kanto Price Index for the badges you hold."""
-import json, math
+import json, math, os
 INDEX = [100, 120, 150, 200, 260, 340, 440, 570, 750]          # % by badges held
 
 BASE = {  # badge-0 prices (index applied in game)
@@ -14,7 +14,7 @@ BASE = {  # badge-0 prices (index applied in game)
 LEAGUE_FEE = 100_000        # flat, every attempt
 LEAGUE_JACKPOT = 500_000    # flat, on becoming Champion
 
-prize = json.load(open('" + __import__('os').path.join(__import__('os').path.dirname(__file__), 'prize.json') + "'))
+prize = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'prize.json')))
 VANILLA = prize['seg']      # prize money per story stretch with vanilla wages
 
 # a typical stretch: Center visits, balls, healing items by tier, gym fee
