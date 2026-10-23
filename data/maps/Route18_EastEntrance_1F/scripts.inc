@@ -3,8 +3,8 @@ Route18_EastEntrance_1F_MapScripts::
 	.byte 0
 
 Route18_EastEntrance_1F_OnTransition::
+	call_if_set FLAG_SYS_ON_CYCLING_ROAD, Route18_EastEntrance_1F_EventScript_DisableNeedBikeTrigger
 	clearflag FLAG_SYS_ON_CYCLING_ROAD
-	call_if_set FLAG_GOT_BICYCLE, Route18_EastEntrance_1F_EventScript_DisableNeedBikeTrigger
 	end
 
 Route18_EastEntrance_1F_EventScript_DisableNeedBikeTrigger::
@@ -56,6 +56,8 @@ Route18_EastEntrance_1F_EventScript_NeedBikeTrigger::
 	call_if_eq VAR_0x8008, 2, Route18_EastEntrance_1F_EventScript_PlayerWalkToCounterMid
 	call_if_eq VAR_0x8008, 3, Route18_EastEntrance_1F_EventScript_PlayerWalkToCounterMidBottom
 	call_if_eq VAR_0x8008, 4, Route18_EastEntrance_1F_EventScript_PlayerWalkToCounterBottom
+	checkitem ITEM_BICYCLE
+	goto_if_eq VAR_RESULT, TRUE, Route18_EastEntrance_1F_EventScript_CyclingToll
 	msgbox Route18_EastEntrance_1F_Text_NeedBicycleForCyclingRoad
 	closemessage
 	applymovement LOCALID_PLAYER, Route18_EastEntrance_1F_Movement_WalkRight
@@ -108,3 +110,31 @@ Route18_EastEntrance_1F_Movement_WalkUp4::
 Route18_EastEntrance_1F_Movement_WalkRight::
 	walk_right
 	step_end
+
+@ Pokémon Inc: CYCLING ROAD is a toll road. Free on the way off the road.
+Route18_EastEntrance_1F_EventScript_CyclingToll::
+	setvar VAR_0x8004, 500
+	special Economy_PrepareCost
+	showmoneybox 0, 0
+	msgbox Text_CyclingRoadToll, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Route18_EastEntrance_1F_EventScript_CyclingTollTurnBack
+	special Economy_CanAfford
+	goto_if_eq VAR_RESULT, FALSE, Route18_EastEntrance_1F_EventScript_CyclingTollCantAfford
+	special Economy_Pay
+	updatemoneybox
+	playse SE_SHOP
+	msgbox Text_CyclingRoadTollPaid
+	hidemoneybox
+	setvar VAR_TEMP_1, 1
+	releaseall
+	end
+
+Route18_EastEntrance_1F_EventScript_CyclingTollCantAfford::
+	msgbox Text_CyclingRoadTollCantAfford
+Route18_EastEntrance_1F_EventScript_CyclingTollTurnBack::
+	hidemoneybox
+	closemessage
+	applymovement LOCALID_PLAYER, Route18_EastEntrance_1F_Movement_WalkRight
+	waitmovement 0
+	releaseall
+	end

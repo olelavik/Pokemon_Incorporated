@@ -23,6 +23,7 @@
 #include "data.h"
 #include "field_specials.h"
 #include "constants/items.h"
+#include "constants/moves.h"
 #include "script_pokemon_util.h"
 #include "pokemon_storage_system.h"
 #include "party_menu.h"
@@ -1774,6 +1775,28 @@ bool8 ScrCmd_setmonmove(struct ScriptContext * ctx)
     return FALSE;
 }
 
+static const u16 sHMItemForMove[][2] = {
+    {MOVE_CUT,        ITEM_HM01},
+    {MOVE_FLY,        ITEM_HM02},
+    {MOVE_SURF,       ITEM_HM03},
+    {MOVE_STRENGTH,   ITEM_HM04},
+    {MOVE_FLASH,      ITEM_HM05},
+    {MOVE_ROCK_SMASH, ITEM_HM06},
+    {MOVE_WATERFALL,  ITEM_HM07},
+};
+
+bool8 PlayerOwnsHMForMove(u16 moveId)
+{
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(sHMItemForMove); i++)
+    {
+        if (sHMItemForMove[i][0] == moveId)
+            return CheckBagHasItem(sHMItemForMove[i][1], 1);
+    }
+    return FALSE;
+}
+
 bool8 ScrCmd_checkpartymove(struct ScriptContext * ctx)
 {
     u8 i;
@@ -1790,6 +1813,23 @@ bool8 ScrCmd_checkpartymove(struct ScriptContext * ctx)
             gSpecialVar_Result = i;
             gSpecialVar_0x8004 = species;
             break;
+        }
+    }
+    // Pokémon Inc: you bought the HM, so you can use it without teaching it.
+    // The first Pokémon in your party performs the move.
+    if (gSpecialVar_Result == PARTY_SIZE && PlayerOwnsHMForMove(moveId))
+    {
+        for (i = 0; i < PARTY_SIZE; i++)
+        {
+            u16 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL);
+            if (!species)
+                break;
+            if (!GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG))
+            {
+                gSpecialVar_Result = i;
+                gSpecialVar_0x8004 = species;
+                break;
+            }
         }
     }
     return FALSE;

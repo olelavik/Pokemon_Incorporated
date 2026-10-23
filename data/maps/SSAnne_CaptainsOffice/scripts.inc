@@ -15,6 +15,10 @@ SSAnne_CaptainsOffice_EventScript_Captain::
 	applymovement LOCALID_SS_ANNE_CAPTAIN, Common_Movement_FacePlayer
 	waitmovement 0
 	msgbox SSAnne_CaptainsOffice_Text_ThankYouHaveHMForCut
+	setvar VAR_0x8004, 2000
+	setvar VAR_0x8005, ITEM_HM01
+	call EventScript_SellHM
+	goto_if_eq VAR_RESULT, FALSE, EventScript_ReleaseEnd
 	giveitem_msg SSAnne_CaptainsOffice_Text_ObtainedHM01FromCaptain, ITEM_HM01, 1, MUS_OBTAIN_KEY_ITEM
 	msgbox SSAnne_CaptainsOffice_Text_ExplainCut
 	setflag FLAG_GOT_HM01

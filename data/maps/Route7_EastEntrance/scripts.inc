@@ -27,7 +27,8 @@ Route7_EastEntrance_EventScript_GuardTrigger::
 	textcolor NPC_TEXT_COLOR_MALE
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
-	goto_if_set FLAG_GOT_TEA, Route7_EastEntrance_EventScript_GiveTea
+	call EventScript_SaffronCityPass
+	goto_if_eq VAR_RESULT, TRUE, Route7_EastEntrance_EventScript_GuardDrinkTea
 	msgbox Route7_EastEntrance_Text_ThirstyOnGuardDuty
 	closemessage
 	applymovement LOCALID_PLAYER, Route7_EastEntrance_Movement_BlockPlayerEntry

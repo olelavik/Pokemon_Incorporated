@@ -8,6 +8,7 @@
 //   hold KEYS N             hold keys for N frames, no release frames
 //   mash KEY TIMES          press KEY TIMES times (6 on / 10 off)
 //   shot FILE.ppm           save the current frame
+//   peek ADDR               print the byte at hex ADDR
 #include <mgba/flags.h>
 #include <mgba/core/core.h>
 #include <mgba/core/serialize.h>
@@ -85,6 +86,11 @@ int main(int argc, char** argv) {
         else if (!strcmp(cmd, "hold")) run(parseKeys(a), n);
         else if (!strcmp(cmd, "mash")) { int k = parseKeys(a); for (int i = 0; i < n; i++) { run(k, 6); run(0, 10); } }
         else if (!strcmp(cmd, "shot")) shot(a);
+        else if (!strcmp(cmd, "peek")) {  // peek ADDR(hex) -> prints the byte
+            unsigned addr = strtoul(a, NULL, 16);
+            printf("PEEK %08x %u\n", addr, (unsigned) core->busRead8(core, addr));
+            fflush(stdout);
+        }
         else if (!strcmp(cmd, "save")) {
             struct VFile* vf = VFileOpen(a, O_CREAT | O_TRUNC | O_RDWR);
             mCoreSaveStateNamed(core, vf, SAVESTATE_ALL);

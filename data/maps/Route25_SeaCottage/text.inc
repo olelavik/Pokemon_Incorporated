@@ -57,8 +57,8 @@ Route25_SeaCottage_Text_ThanksBudTakeThis::
     .string "POKéMON collection?\p"
     .string "You didn't?\n"
     .string "That's a bummer.\p"
-    .string "I've got to thank you…\n"
-    .string "Oh, here, maybe this'll do.$"
+    .string "Tell you what, I've got a spare\n"
+    .string "ticket for the S.S. ANNE.$"
 
 Route25_SeaCottage_Text_ThanksLadyTakeThis::
     .string "BILL: Yeehah!\n"
@@ -67,8 +67,8 @@ Route25_SeaCottage_Text_ThanksLadyTakeThis::
     .string "POKéMON collection?\p"
     .string "You didn't?\n"
     .string "That's a bummer.\p"
-    .string "I've got to thank you…\n"
-    .string "Oh, here, maybe this'll do.$"
+    .string "Tell you what, I've got a spare\n"
+    .string "ticket for the S.S. ANNE.$"
 
 Route25_SeaCottage_Text_ReceivedSSTicketFromBill::
     .string "{PLAYER} received an S.S. TICKET\n"
@@ -106,3 +106,15 @@ Route25_SeaCottage_Text_BillsFavoriteMonList::
 Route25_SeaCottage_Text_SeeWhichMon::
     .string "Which POKéMON do you want to see?$"
 
+
+Route25_SeaCottage_Text_BillSellTicket::
+    .string "Face value is way more, but for\n"
+    .string "you? ¥{STR_VAR_2}. Friends price!\p"
+    .string "I did say I owe you one.\n"
+    .string "I didn't say how much. Deal?$"
+
+Route25_SeaCottage_Text_BillNoSale::
+    .string "BILL: No? Suit yourself.\p"
+    .string "The ticket's here when you've got\n"
+    .string "the cash. The ship won't wait\l"
+    .string "forever, though!$"

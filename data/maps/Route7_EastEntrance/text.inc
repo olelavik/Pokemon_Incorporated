@@ -1,25 +1,17 @@
 Route7_EastEntrance_Text_ThirstyOnGuardDuty::
-    .string "I'm on guard duty.\n"
-    .string "Gee, I'm thirsty, though!\p"
-    .string "Oh, wait there, the road's closed.$"
+    .string "No pass, no entry.\p"
+    .string "SAFFRON CITY is for people who\n"
+    .string "can afford SAFFRON CITY.$"
 
 Route7_EastEntrance_Text_ThatTeaLooksTasty::
-    .string "Oh, that TEA…\n"
-    .string "It looks awfully tasty…$"
+    .string "Thank you for your purchase!\n"
+    .string "Welcome to SAFFRON CITY.$"
 
 Route7_EastEntrance_Text_ThanksIllShareTeaWithGuards::
-    .string "Huh? I can have this drink?\n"
-    .string "Gee, thanks!\l"
-    .string "… …\l"
-    .string "Glug, glug…\l"
-    .string "… …\l"
-    .string "Gulp…\l"
-    .string "If you want to go to SAFFRON\l"
-    .string "CITY…\l"
-    .string "… …\l"
-    .string "You can go on through.\p"
-    .string "I'll share this TEA with the other\n"
-    .string "guards!$"
+    .string "I'll let the other gates know.\n"
+    .string "Your pass is valid everywhere.\p"
+    .string "Please spend generously while\n"
+    .string "you're in town.$"
 
 Route7_EastEntrance_Text_HiHowsItGoing::
     .string "Hi, how's it going?$"

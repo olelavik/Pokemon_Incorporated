@@ -2978,6 +2978,24 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
             }
         }
     }
+    // Pokémon Inc: FLY and FLASH work from any Pokémon if you own the HM,
+    // as long as the menu has room (it holds 8 entries, 3 are added below).
+    {
+        static const u8 sHMFieldMoves[] = {FIELD_MOVE_FLY, FIELD_MOVE_FLASH};
+        for (i = 0; i < ARRAY_COUNT(sHMFieldMoves); i++)
+        {
+            u8 action = sHMFieldMoves[i] + CURSOR_OPTION_FIELD_MOVES;
+            bool8 listed = FALSE;
+            for (j = 0; j < sPartyMenuInternal->numActions; j++)
+            {
+                if (sPartyMenuInternal->actions[j] == action)
+                    listed = TRUE;
+            }
+            if (!listed && sPartyMenuInternal->numActions + 3 < ARRAY_COUNT(sPartyMenuInternal->actions)
+             && PlayerOwnsHMForMove(sFieldMoves[sHMFieldMoves[i]]))
+                AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, action);
+        }
+    }
     if (GetMonData(&mons[1], MON_DATA_SPECIES) != SPECIES_NONE)
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, CURSOR_OPTION_SWITCH);
     if (ItemIsMail(GetMonData(&mons[slotId], MON_DATA_HELD_ITEM)))

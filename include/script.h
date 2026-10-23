@@ -75,4 +75,6 @@ bool8 IsMsgBoxWalkawayDisabled(void);
 extern const u8 *gRamScriptRetAddr;
 extern u8 gWalkAwayFromSignInhibitTimer;
 
+bool8 PlayerOwnsHMForMove(u16 moveId); // Pokémon Inc (src/scrcmd.c)
+
 #endif // GUARD_SCRIPT_H

@@ -1651,7 +1651,7 @@
     {
       "english": "TINYMUSHROOM",
       "itemId": "ITEM_TINY_MUSHROOM",
-      "price": 500,
+      "price": 200,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A small and rare mushroom.\\nIt is quite popular among certain\\npeople.",
@@ -1667,7 +1667,7 @@
     {
       "english": "BIG MUSHROOM",
       "itemId": "ITEM_BIG_MUSHROOM",
-      "price": 5000,
+      "price": 2000,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A large and rare mushroom.\\nIt is very popular among certain\\npeople.",
@@ -1699,7 +1699,7 @@
     {
       "english": "PEARL",
       "itemId": "ITEM_PEARL",
-      "price": 1400,
+      "price": 600,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A relatively small pearl that\\nsparkles in a pretty silver color.\\nIt can be sold cheaply.",
@@ -1715,7 +1715,7 @@
     {
       "english": "BIG PEARL",
       "itemId": "ITEM_BIG_PEARL",
-      "price": 7500,
+      "price": 3000,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A quite-large pearl that sparkles\\nin a pretty silver color.\\nIt can be sold at a high price.",
@@ -1731,7 +1731,7 @@
     {
       "english": "STARDUST",
       "itemId": "ITEM_STARDUST",
-      "price": 2000,
+      "price": 800,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A pretty red sand with a loose,\\nsilky feel.\\nIt can be sold at a high price.",
@@ -1747,7 +1747,7 @@
     {
       "english": "STAR PIECE",
       "itemId": "ITEM_STAR_PIECE",
-      "price": 9800,
+      "price": 4000,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A shard of a pretty gem that\\nsparkles in a red color.\\nIt can be sold at a high price.",

@@ -27,7 +27,8 @@ Route6_NorthEntrance_EventScript_GuardTrigger::
 	textcolor NPC_TEXT_COLOR_MALE
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
 	waitmovement 0
-	goto_if_set FLAG_GOT_TEA, Route6_NorthEntrance_EventScript_GiveTea
+	call EventScript_SaffronCityPass
+	goto_if_eq VAR_RESULT, TRUE, Route6_NorthEntrance_EventScript_GuardDrinkTea
 	msgbox Route6_NorthEntrance_Text_ThirstyOnGuardDuty
 	closemessage
 	applymovement LOCALID_PLAYER, Route6_NorthEntrance_Movement_BlockPlayerEntry

@@ -18,6 +18,10 @@ Route2_EastBuilding_EventScript_Aide::
 	msgbox Route2_EastBuilding_Text_GreatHereYouGo
 	checkitemspace ITEM_HM05
 	goto_if_eq VAR_RESULT, FALSE, Aide_EventScript_NoRoomForItem
+	setvar VAR_0x8004, 1000
+	setvar VAR_0x8005, ITEM_HM05
+	call EventScript_SellHM
+	goto_if_eq VAR_RESULT, FALSE, EventScript_ReleaseEnd
 	giveitem_msg Route2_EastBuilding_Text_ReceivedHM05FromAide, ITEM_HM05
 	setflag FLAG_GOT_HM05
 	msgbox Route2_EastBuilding_Text_ExplainHM05

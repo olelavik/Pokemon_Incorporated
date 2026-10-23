@@ -3,8 +3,8 @@ Route16_NorthEntrance_1F_MapScripts::
 	.byte 0
 
 Route16_NorthEntrance_1F_OnTransition::
+	call_if_set FLAG_SYS_ON_CYCLING_ROAD, Route16_NorthEntrance_1F_EventScript_DisableNeedBikeTrigger
 	clearflag FLAG_SYS_ON_CYCLING_ROAD
-	call_if_set FLAG_GOT_BICYCLE, Route16_NorthEntrance_1F_EventScript_DisableNeedBikeTrigger
 	end
 
 Route16_NorthEntrance_1F_EventScript_DisableNeedBikeTrigger::
@@ -56,6 +56,8 @@ Route16_NorthEntrance_1F_EventScript_NeedBikeTrigger::
 	call_if_eq VAR_0x8008, 2, Route16_NorthEntrance_1F_EventScript_PlayerWalkToCounterMid
 	call_if_eq VAR_0x8008, 3, Route16_NorthEntrance_1F_EventScript_PlayerWalkToCounterMidBottom
 	call_if_eq VAR_0x8008, 4, Route16_NorthEntrance_1F_EventScript_PlayerWalkToCounterBottom
+	checkitem ITEM_BICYCLE
+	goto_if_eq VAR_RESULT, TRUE, Route16_NorthEntrance_1F_EventScript_CyclingToll
 	msgbox Route16_NorthEntrance_1F_Text_NoPedestriansOnCyclingRoad
 	closemessage
 	applymovement LOCALID_PLAYER, Route16_NorthEntrance_1F_Movement_WalkRight
@@ -111,4 +113,32 @@ Route16_NorthEntrance_1F_Movement_WalkRight::
 
 Route16_NorthEntrance_1F_EventScript_OldMan::
 	msgbox Route16_NorthEntrance_1F_Text_HowdYouGetInGoodEffort, MSGBOX_NPC
+	end
+
+@ Pokémon Inc: CYCLING ROAD is a toll road. Free on the way off the road.
+Route16_NorthEntrance_1F_EventScript_CyclingToll::
+	setvar VAR_0x8004, 500
+	special Economy_PrepareCost
+	showmoneybox 0, 0
+	msgbox Text_CyclingRoadToll, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Route16_NorthEntrance_1F_EventScript_CyclingTollTurnBack
+	special Economy_CanAfford
+	goto_if_eq VAR_RESULT, FALSE, Route16_NorthEntrance_1F_EventScript_CyclingTollCantAfford
+	special Economy_Pay
+	updatemoneybox
+	playse SE_SHOP
+	msgbox Text_CyclingRoadTollPaid
+	hidemoneybox
+	setvar VAR_TEMP_1, 1
+	releaseall
+	end
+
+Route16_NorthEntrance_1F_EventScript_CyclingTollCantAfford::
+	msgbox Text_CyclingRoadTollCantAfford
+Route16_NorthEntrance_1F_EventScript_CyclingTollTurnBack::
+	hidemoneybox
+	closemessage
+	applymovement LOCALID_PLAYER, Route16_NorthEntrance_1F_Movement_WalkRight
+	waitmovement 0
+	releaseall
 	end

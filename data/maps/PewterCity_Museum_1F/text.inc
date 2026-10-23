@@ -1,14 +1,15 @@
 PewterCity_Museum_1F_Text_Its50YForChildsTicket::
     .string "Yes, yes.\n"
-    .string "It's ¥50 for a child's ticket.\p"
-    .string "Would you like to come in?$"
+    .string "It's ¥{STR_VAR_2} for a child's ticket.\p"
+    .string "Fossils don't dig themselves up,\n"
+    .string "you know. Come in?$"
 
 PewterCity_Museum_1F_Text_ComeAgain::
     .string "Come again!$"
 
 PewterCity_Museum_1F_Text_Right50YThankYou::
-    .string "Right, ¥50!\n"
-    .string "Thank you!$"
+    .string "Right, ¥{STR_VAR_2}!\n"
+    .string "The gift shop is to your left.$"
 
 PewterCity_Museum_1F_Text_DontHaveEnoughMoney::
     .string "You don't have enough money.$"

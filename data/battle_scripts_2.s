@@ -113,6 +113,13 @@ BattleScript_ShakeBallThrow::
 BattleScript_CatchFailEnd::
 	finishaction
 
+@ Pokémon Inc: a rare wild Pokémon breaks out and runs away.
+BattleScript_RareMonFledAfterBall::
+	printfromtable gBallEscapeStringIds
+	waitmessage B_WAIT_TIME_LONG
+	setbyte gBattleOutcome, B_OUTCOME_MON_FLED
+	finishaction
+
 BattleScript_TrainerBallBlock::
 	waitmessage B_WAIT_TIME_LONG
 	printstring STRINGID_TRAINERBLOCKEDBALL

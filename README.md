@@ -32,7 +32,10 @@ The original decomp README is in [README_DECOMP.md](README_DECOMP.md).
 | Exchange buildings: Vermilion, Lavender, Fuchsia, Saffron, Cinnabar | Planned |
 | Kanto Price Index: prices x1.0 -> x7.5 by badges, wages x0.85 -> x3.3 | Done (`src/economy.c`, model in `tools/pokemon_inc/model`) |
 | Gym challenge fee, League fee 100,000 / jackpot 500,000 | Done |
-| Rare Pokémon flee after failed throws | Proposed |
+| Rare Pokémon (catch rate <= 75) flee 25% after a failed throw | Done |
+| Paid S.S. Ticket, Saffron city pass, Cycling Road toll, museum | Done |
+| HMs sold, usable without teaching (Fly/Flash from the party menu) | Done |
+| Legendary bird balance | Planned |
 | Market events (crashes, booms) | Planned |
 | Entry fees, toll booths | Planned |
 | Bill's PC free (ads) / premium | Planned |

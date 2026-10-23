@@ -9467,6 +9467,25 @@ static void Cmd_removelightscreenreflect(void)
     gBattlescriptCurrInstr++;
 }
 
+// Pokémon Inc: rare wild Pokémon (catch rate 75 or lower) flee 25% of the
+// time after breaking out of a ball, so better balls are worth their price.
+// Never in trainer, Safari, roamer, ghost, tutorial or scripted battles
+// (Snorlax, legendaries and other one-off encounters never flee).
+#define RARE_MON_CATCH_RATE  75
+#define RARE_MON_FLEE_CHANCE 25
+
+static bool32 ShouldRareMonFleeAfterBall(void)
+{
+    if (gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_ROAMER | BATTLE_TYPE_GHOST
+                          | BATTLE_TYPE_OLD_MAN_TUTORIAL | BATTLE_TYPE_WILD_SCRIPTED | BATTLE_TYPE_LEGENDARY
+                          | BATTLE_TYPE_LEGENDARY_FRLG | BATTLE_TYPE_POKEDUDE | BATTLE_TYPE_KYOGRE_GROUDON
+                          | BATTLE_TYPE_REGI | BATTLE_TYPE_LINK))
+        return FALSE;
+    if (gSpeciesInfo[gBattleMons[gBattlerTarget].species].catchRate > RARE_MON_CATCH_RATE)
+        return FALSE;
+    return (Random() % 100) < RARE_MON_FLEE_CHANCE;
+}
+
 static void Cmd_handleballthrow(void)
 {
     u8 ballMultiplier = 0;
@@ -9615,7 +9634,13 @@ static void Cmd_handleballthrow(void)
             else // not caught
             {
                 gBattleCommunication[MULTISTRING_CHOOSER] = shakes;
-                gBattlescriptCurrInstr = BattleScript_ShakeBallThrow;
+                if (ShouldRareMonFleeAfterBall())
+                {
+                    gBattlerAttacker = gBattlerTarget; // "Wild <this mon> fled!" names the attacker
+                    gBattlescriptCurrInstr = BattleScript_RareMonFledAfterBall;
+                }
+                else
+                    gBattlescriptCurrInstr = BattleScript_ShakeBallThrow;
             }
         }
     }

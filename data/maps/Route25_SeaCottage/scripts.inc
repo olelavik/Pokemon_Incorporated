@@ -96,6 +96,8 @@ Route25_SeaCottage_EventScript_BillGiveSSTicket::
 	checkplayergender
 	call_if_eq VAR_RESULT, MALE, Route25_SeaCottage_EventScript_BillThanksMale
 	call_if_eq VAR_RESULT, FEMALE, Route25_SeaCottage_EventScript_BillThanksFemale
+	call Route25_SeaCottage_EventScript_BillSellTicket
+	goto_if_eq VAR_RESULT, FALSE, Route25_SeaCottage_EventScript_BillNoSale
 	checkitemspace ITEM_SS_TICKET
 	goto_if_eq VAR_RESULT, FALSE, Route25_SeaCottage_EventScript_NoRoomForSSTicket
 	giveitem_msg Route25_SeaCottage_Text_ReceivedSSTicketFromBill, ITEM_SS_TICKET, 1, MUS_OBTAIN_KEY_ITEM
@@ -294,3 +296,30 @@ Route25_SeaCottage_Movement_BillWalkToMiddleOfRoom::
 Route25_SeaCottage_Movement_BillExitTeleporter::
 	walk_down
 	step_end
+
+@ Pokémon Inc: Bill sells you his S.S. Ticket instead of giving it away.
+Route25_SeaCottage_EventScript_BillSellTicket::
+	setvar VAR_0x8004, 4000
+	special Economy_PrepareCost
+	showmoneybox 0, 0
+	msgbox Route25_SeaCottage_Text_BillSellTicket, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, Route25_SeaCottage_EventScript_BillSellTicketNo
+	special Economy_CanAfford
+	goto_if_eq VAR_RESULT, FALSE, Route25_SeaCottage_EventScript_BillSellTicketNo
+	special Economy_Pay
+	updatemoneybox
+	playse SE_SHOP
+	waitse
+	hidemoneybox
+	setvar VAR_RESULT, TRUE
+	return
+
+Route25_SeaCottage_EventScript_BillSellTicketNo::
+	hidemoneybox
+	setvar VAR_RESULT, FALSE
+	return
+
+Route25_SeaCottage_EventScript_BillNoSale::
+	msgbox Route25_SeaCottage_Text_BillNoSale
+	release
+	end

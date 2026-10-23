@@ -27,7 +27,8 @@ Route5_SouthEntrance_EventScript_GuardTrigger::
 	textcolor NPC_TEXT_COLOR_MALE
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterLeft
 	waitmovement 0
-	goto_if_set FLAG_GOT_TEA, Route5_SouthEntrance_EventScript_GiveTea
+	call EventScript_SaffronCityPass
+	goto_if_eq VAR_RESULT, TRUE, Route5_SouthEntrance_EventScript_GuardDrinkTea
 	msgbox Route5_SouthEntrance_Text_ThirstyOnGuardDuty
 	closemessage
 	applymovement LOCALID_PLAYER, Route5_SouthEntrance_Movement_BlockPlayerEntry
