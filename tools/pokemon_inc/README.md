@@ -13,3 +13,7 @@
   `python3 exchange_building.py add <town_tileset_dir> <LAYOUT_ID> <x> <y>`
 - `exchange_interior.py` – (re)builds the `pokemon_exchange` interior tileset
   (Mart + cage tiles) and `LAYOUT_POKEMON_EXCHANGE`.
+- `find_spots.py` – list free 4x4 spots in a town for a new building.
+- `add_exchange.py` – one command per town: building, door warp, interior map,
+  caged Pokémon, customers, map group registration, stock and booth removal.
+  Towns are configured in its TOWNS table.

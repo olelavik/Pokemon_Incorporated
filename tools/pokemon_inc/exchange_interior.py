@@ -179,7 +179,60 @@ const struct Tileset gTileset_PokemonExchange =
     print('tileset registered')
 
 
+def build_layout_large(cage):
+    """Celadon flagship: the Mart widened by 6 columns, full of cages."""
+    src = os.path.join(ROOT, 'data/layouts/Mart')
+    dst = os.path.join(ROOT, 'data/layouts/PokemonExchangeLarge')
+    os.makedirs(dst, exist_ok=True)
+    shutil.copy(os.path.join(src, 'border.bin'), os.path.join(dst, 'border.bin'))
+    b = open(os.path.join(src, 'map.bin'), 'rb').read()
+    w0, h, extra = 11, 9, 6
+    cells = [[struct.unpack_from('<H', b, (y * w0 + x) * 2)[0] for x in range(w0)] for y in range(h)]
+    FLOOR = 641
+    rows = []
+    for y in range(h):
+        filler = cells[y][6]                  # plain wall / floor / bottom edge column
+        rows.append(cells[y][:7] + [filler] * extra + cells[y][7:])
+    w = w0 + extra
+    def put(x, y, meta, solid):
+        rows[y][x] = meta | ((1 if solid else 0) << 10) | (3 << 12)
+    # clear the old shelves (now at cols 13, 14, 16)
+    for x in (13, 14, 16):
+        for y in range(3, 7):
+            put(x, y, FLOOR, False)
+    # cage rows: three 2x2 stacks plus a wall column
+    cages = [(8, 4), (9, 4), (8, 5), (9, 5),
+             (11, 4), (12, 4), (11, 5), (12, 5),
+             (14, 4), (15, 4), (14, 5), (15, 5),
+             (16, 4), (16, 5)]
+    # keep col 16 separate from 15: make 15 a walkway instead
+    cages = [c for c in cages if c[0] != 15]
+    for (x, y) in cages:
+        put(x, y, cage, True)
+    out = bytearray()
+    for y in range(h):
+        for x in range(w):
+            out += struct.pack('<H', rows[y][x])
+    open(os.path.join(dst, 'map.bin'), 'wb').write(out)
+    lp = os.path.join(ROOT, 'data/layouts/layouts.json')
+    data = json.load(open(lp))
+    if not any(l.get('id') == 'LAYOUT_POKEMON_EXCHANGE_LARGE' for l in data['layouts']):
+        data['layouts'].append({
+            'id': 'LAYOUT_POKEMON_EXCHANGE_LARGE',
+            'name': 'PokemonExchangeLarge_Layout',
+            'width': w, 'height': h, 'border_width': 2, 'border_height': 2,
+            'primary_tileset': 'gTileset_Building',
+            'secondary_tileset': 'gTileset_PokemonExchange',
+            'border_filepath': 'data/layouts/PokemonExchangeLarge/border.bin',
+            'blockdata_filepath': 'data/layouts/PokemonExchangeLarge/map.bin',
+        })
+        json.dump(data, open(lp, 'w'), indent=2, ensure_ascii=False)
+        open(lp, 'a').write('\n')
+    print('large layout written, cages at', cages)
+
+
 if __name__ == '__main__':
     cage = build_tileset()
     build_layout(cage)
+    build_layout_large(cage)
     register_tileset()

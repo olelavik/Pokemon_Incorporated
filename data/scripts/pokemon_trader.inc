@@ -393,3 +393,238 @@ Text_ExchangeCustomer::
 Text_ExchangeSign::
 	.string "POKéMON EXCHANGE\n"
 	.string "We buy. We sell. No questions.$"
+
+PokemonExchange_EventScript_CagedNidoranM::
+	lock
+	playmoncry SPECIES_NIDORAN_M, CRY_MODE_NORMAL
+	msgbox Text_CagedNidoranM
+	waitmoncry
+	release
+	end
+
+PokemonExchange_EventScript_CagedNidoranF::
+	lock
+	playmoncry SPECIES_NIDORAN_F, CRY_MODE_NORMAL
+	msgbox Text_CagedNidoranF
+	waitmoncry
+	release
+	end
+
+PokemonExchange_EventScript_CagedSpearow::
+	lock
+	playmoncry SPECIES_SPEAROW, CRY_MODE_NORMAL
+	msgbox Text_CagedSpearow
+	waitmoncry
+	release
+	end
+
+PokemonExchange_EventScript_CagedSlowpoke::
+	lock
+	playmoncry SPECIES_SLOWPOKE, CRY_MODE_NORMAL
+	msgbox Text_CagedSlowpoke
+	waitmoncry
+	release
+	end
+
+PokemonExchange_EventScript_CagedSeel::
+	lock
+	playmoncry SPECIES_SEEL, CRY_MODE_NORMAL
+	msgbox Text_CagedSeel
+	waitmoncry
+	release
+	end
+
+PokemonExchange_EventScript_CagedMachop::
+	lock
+	playmoncry SPECIES_MACHOP, CRY_MODE_NORMAL
+	msgbox Text_CagedMachop
+	waitmoncry
+	release
+	end
+
+PokemonExchange_EventScript_CagedVoltorb::
+	lock
+	playmoncry SPECIES_VOLTORB, CRY_MODE_NORMAL
+	msgbox Text_CagedVoltorb
+	waitmoncry
+	release
+	end
+
+PokemonExchange_EventScript_CagedChansey::
+	lock
+	playmoncry SPECIES_CHANSEY, CRY_MODE_NORMAL
+	msgbox Text_CagedChansey
+	waitmoncry
+	release
+	end
+
+PokemonExchange_EventScript_CagedKabuto::
+	lock
+	playmoncry SPECIES_KABUTO, CRY_MODE_NORMAL
+	msgbox Text_CagedKabuto
+	waitmoncry
+	release
+	end
+
+PokemonExchange_EventScript_CagedOmanyte::
+	lock
+	playmoncry SPECIES_OMANYTE, CRY_MODE_NORMAL
+	msgbox Text_CagedOmanyte
+	waitmoncry
+	release
+	end
+
+PokemonExchange_EventScript_CagedCubone::
+	lock
+	playmoncry SPECIES_CUBONE, CRY_MODE_NORMAL
+	msgbox Text_CagedCubone
+	waitmoncry
+	release
+	end
+
+PokemonExchange_EventScript_CagedDoduo::
+	lock
+	playmoncry SPECIES_DODUO, CRY_MODE_NORMAL
+	msgbox Text_CagedDoduo
+	waitmoncry
+	release
+	end
+
+PokemonExchange_EventScript_CagedWigglytuff::
+	lock
+	playmoncry SPECIES_WIGGLYTUFF, CRY_MODE_NORMAL
+	msgbox Text_CagedWigglytuff
+	waitmoncry
+	release
+	end
+
+PokemonExchange_EventScript_CagedNidorino::
+	lock
+	playmoncry SPECIES_NIDORINO, CRY_MODE_NORMAL
+	msgbox Text_CagedNidorino
+	waitmoncry
+	release
+	end
+
+PokemonExchange_EventScript_CustomerHiker::
+	lock
+	faceplayer
+	msgbox Text_ExchangeCustomerHiker
+	release
+	end
+
+PokemonExchange_EventScript_CustomerLass::
+	lock
+	faceplayer
+	msgbox Text_ExchangeCustomerLass
+	release
+	end
+
+PokemonExchange_EventScript_CustomerBeauty::
+	lock
+	faceplayer
+	msgbox Text_ExchangeCustomerBeauty
+	release
+	end
+
+PokemonExchange_EventScript_CustomerFatMan::
+	lock
+	faceplayer
+	msgbox Text_ExchangeCustomerFatMan
+	release
+	end
+
+Text_CagedNidoranM::
+	.string "NIDORAN♂: Nido…\p"
+	.string "It headbutts the bars, then sulks.\n"
+	.string "The tag reads: KNOWN BITER.$"
+
+Text_CagedNidoranF::
+	.string "NIDORAN♀: Nido…\p"
+	.string "The tag reads: SOLD AS A PAIR.\n"
+	.string "The other one is next door.$"
+
+Text_CagedSpearow::
+	.string "SPEAROW: Spiii!\p"
+	.string "It pecks the price tag until it\n"
+	.string "reads ¥1. Nobody notices.$"
+
+Text_CagedSlowpoke::
+	.string "SLOWPOKE: …\p"
+	.string "…Slow…\p"
+	.string "It hasn't realized it's in a cage.\n"
+	.string "Lucky.$"
+
+Text_CagedSeel::
+	.string "SEEL: Seel…\p"
+	.string "Its water bowl is empty.\n"
+	.string "The tag reads: LOW MAINTENANCE.$"
+
+Text_CagedMachop::
+	.string "MACHOP: Ma!\p"
+	.string "It's doing push-ups. The tag\n"
+	.string "reads: WILL WORK FOR FOOD.$"
+
+Text_CagedVoltorb::
+	.string "VOLTORB: …\p"
+	.string "The tag reads: HANDLE WITH CARE.\n"
+	.string "NO REFUNDS IF IT EXPLODES.$"
+
+Text_CagedChansey::
+	.string "CHANSEY: Chaan…\p"
+	.string "It offers you its egg through the\n"
+	.string "bars. The egg is sold separately.$"
+
+Text_CagedKabuto::
+	.string "KABUTO: …\p"
+	.string "Revived from a fossil.\n"
+	.string "The tag reads: 300 MILLION YEARS\l"
+	.string "OLD! STILL UNDER WARRANTY!$"
+
+Text_CagedOmanyte::
+	.string "OMANYTE: …\p"
+	.string "The tag reads: ANTIQUE.\n"
+	.string "CERTIFICATE OF AUTHENTICITY\l"
+	.string "AVAILABLE FOR A FEE.$"
+
+Text_CagedCubone::
+	.string "CUBONE: Kyaru…\p"
+	.string "It won't let go of its skull\n"
+	.string "helmet. The tag reads: HELMET\l"
+	.string "SOLD SEPARATELY.$"
+
+Text_CagedDoduo::
+	.string "DODUO: Doo! Doo!\p"
+	.string "The tag reads: TWO HEADS FOR\n"
+	.string "THE PRICE OF ONE!$"
+
+Text_CagedWigglytuff::
+	.string "WIGGLYTUFF: Wiggly…\p"
+	.string "The tag reads: PREMIUM FLUFF.\n"
+	.string "PRICE PER KILO.$"
+
+Text_CagedNidorino::
+	.string "NIDORINO: Rino!\p"
+	.string "The tag reads: LIMITED TIME\n"
+	.string "OFFER. NOT VALID WITH COUPONS.$"
+
+Text_ExchangeCustomerHiker::
+	.string "I'm buying a GEODUDE for my rock\n"
+	.string "garden.\p"
+	.string "They don't eat much.\n"
+	.string "Or at all, really.$"
+
+Text_ExchangeCustomerLass::
+	.string "I want a cute one!\p"
+	.string "And when it stops being cute,\n"
+	.string "I'll sell it back. Easy!$"
+
+Text_ExchangeCustomerBeauty::
+	.string "I only buy shiny ones.\n"
+	.string "To match my handbag.\p"
+	.string "This season's handbag, anyway.$"
+
+Text_ExchangeCustomerFatMan::
+	.string "Do they sell these by the pound?\p"
+	.string "…For petting, of course.\n"
+	.string "Why do you ask?$"

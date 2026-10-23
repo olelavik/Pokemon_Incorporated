@@ -28,8 +28,8 @@ The original decomp README is in [README_DECOMP.md](README_DECOMP.md).
 | Buying Pokémon: per-Center stock, Celadon grows with badges | Done (`src/data/pokemon_trader_stock.h`) |
 | Rare 2% spawns on early routes | Done (`src/data/wild_encounters.json`) |
 | Market saturation: -25% per repeat sale, recovers every 1,000 steps | Done |
-| Pokémon Exchange building: Viridian (prototype) | Done |
-| Exchange buildings in the other towns | Planned |
+| Pokémon Exchange buildings: Viridian, Pewter, Cerulean, Celadon (flagship) | Done (`tools/pokemon_inc/add_exchange.py`) |
+| Exchange buildings: Vermilion, Lavender, Fuchsia, Saffron, Cinnabar | Planned |
 | Price swings per badge | Planned |
 | Entry fees, toll booths | Planned |
 | Bill's PC free (ads) / premium | Planned |

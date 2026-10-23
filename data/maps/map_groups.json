@@ -329,7 +329,8 @@
     "PewterCity_House1",
     "PewterCity_PokemonCenter_1F",
     "PewterCity_PokemonCenter_2F",
-    "PewterCity_House2"
+    "PewterCity_House2",
+    "PewterCity_PokemonExchange"
   ],
   "gMapGroup_IndoorCerulean": [
     "CeruleanCity_House1",
@@ -341,7 +342,8 @@
     "CeruleanCity_BikeShop",
     "CeruleanCity_Mart",
     "CeruleanCity_House4",
-    "CeruleanCity_House5"
+    "CeruleanCity_House5",
+    "CeruleanCity_PokemonExchange"
   ],
   "gMapGroup_IndoorLavender": [
     "LavenderTown_PokemonCenter_1F",
@@ -381,7 +383,8 @@
     "CeladonCity_Gym",
     "CeladonCity_Restaurant",
     "CeladonCity_House1",
-    "CeladonCity_Hotel"
+    "CeladonCity_Hotel",
+    "CeladonCity_PokemonExchange"
   ],
   "gMapGroup_IndoorFuchsia": [
     "FuchsiaCity_SafariZone_Entrance",
