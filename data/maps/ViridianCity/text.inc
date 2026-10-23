@@ -29,8 +29,8 @@ ViridianCity_Text_ExplainCaterpieWeedle::
 ViridianCity_Text_GrandpaHasntHadCoffeeYet::
     .string "Oh, Grandpa!\n"
     .string "Don't be so mean!\p"
-    .string "Sorry. He gets grumpy when the\n"
-    .string "rent checks are late.$"
+    .string "Sorry. He's grumpy until he's had\n"
+    .string "his coffee. It's imported.$"
 
 ViridianCity_Text_GoShoppingInPewterOccasionally::
     .string "I go shopping in PEWTER CITY.\n"
@@ -39,45 +39,38 @@ ViridianCity_Text_GoShoppingInPewterOccasionally::
     .string "entry fee now. Ugh.$"
 
 ViridianCity_Text_ThisIsPrivateProperty::
-    .string "I absolutely forbid you from\n"
-    .string "going through here!\p"
-    .string "This is private property!\n"
-    .string "I own this road!$"
+    .string "Hrmph! Not now!\p"
+    .string "I haven't had my coffee, and I\n"
+    .string "charge extra for advice before\l"
+    .string "my coffee.$"
 
 ViridianCity_Text_ShowYouHowToCatchMons::
-    .string "Well, now, I've had my coffee.\n"
-    .string "Time to collect some rent!\p"
-    .string "Hm? You want to pass?\p"
-    .string "Well, you've got OAK's stamp on\n"
-    .string "your hand. Fine, fine.\p"
-    .string "But first, some free advice.\n"
+    .string "Well, now, I've had my coffee.\p"
+    .string "Hm? You've got OAK's stamp on\n"
+    .string "your hand. A new TRAINER, eh?\p"
+    .string "Then listen up. Some free advice.\n"
     .string "The only free thing you'll get.\p"
-    .string "I didn't get rich catching\n"
-    .string "POKéMON. I got rich owning land.\p"
-    .string "Every road, every patch of grass\n"
-    .string "in KANTO belongs to somebody.$"
+    .string "I got rich catching POKéMON.\n"
+    .string "Not the common junk, mind you.$"
 
 ViridianCity_Text_ThatWasEducationalTakeThis::
-    .string "Lesson one: buy the land where\n"
-    .string "the rare POKéMON live.\p"
-    .string "Then charge TRAINERS to catch\n"
-    .string "them there. Easy money!\p"
-    .string "Lesson two: never sell land.\n"
-    .string "Rent it out. Forever.$"
+    .string "Lesson one: a RATTATA is worth\n"
+    .string "less than the POKé BALL it's in.\p"
+    .string "Lesson two: rare POKéMON hide in\n"
+    .string "the grass everywhere.\p"
+    .string "One lucky catch can be worth more\n"
+    .string "than a whole week of battles.$"
 
 ViridianCity_Text_WatchThatToLearnBasics::
-    .string "Lesson three: when you're rich,\n"
-    .string "buy the POKéMON CENTER.\p"
-    .string "Then everyone pays you to heal!\p"
-    .string "Now scram, kid.\n"
-    .string "You're blocking my sunlight.$"
+    .string "Lesson three: raise it before you\n"
+    .string "sell it. Evolved means expensive.\p"
+    .string "Now…\n"
+    .string "I have a little something for you.$"
 
 ViridianCity_Text_WeakenMonsFirstToCatch::
-    .string "Well, now, I've had my coffee.\n"
-    .string "Coffee from my own plantation.\p"
-    .string "Are you catching POKéMON to sell?\p"
-    .string "Weaken them first. A missed\n"
-    .string "POKé BALL is money in the trash.$"
+    .string "Well, now, I've had my coffee.\p"
+    .string "Found anything rare yet?\n"
+    .string "Keep looking. It's out there.$"
 
 ViridianCity_Text_HowsTeachyTVHelping::
     .string "Well, now, I've had my coffee.\p"
@@ -86,14 +79,14 @@ ViridianCity_Text_HowsTeachyTVHelping::
 
 ViridianCity_Text_MyGrandsonOnTheShow::
     .string "Wahaha!\n"
-    .string "A future landlord!\p"
-    .string "Raise the rent every year, kid.\n"
-    .string "They'll pay. They always pay.$"
+    .string "How's my TEACHY TV?\p"
+    .string "Best ¥99,999 you ever spent.\n"
+    .string "No refunds, of course.$"
 
 ViridianCity_Text_TooBusyForTeachyTV::
-    .string "Hm… Still renting, are you?\p"
-    .string "Rent is money thrown away.\n"
-    .string "Own things! Own everything!$"
+    .string "No? Your loss, kid.\p"
+    .string "The offer stands. The price only\n"
+    .string "goes up.$"
 
 ViridianCity_Text_CitySign::
     .string "VIRIDIAN CITY\n"
@@ -119,3 +112,22 @@ ViridianCity_Text_GymSign::
 ViridianCity_Text_GymDoorsAreLocked::
     .string "VIRIDIAN GYM's doors are locked…$"
 
+
+ViridianCity_Text_TeachyTVPitch::
+    .string "Behold! My old TEACHY TV!\n"
+    .string "Every trick to catching rare\l"
+    .string "POKéMON, on video!\p"
+    .string "The secret to my fortune!\n"
+    .string "Yours for just ¥99,999.\p"
+    .string "A bargain! Buy it?$"
+
+ViridianCity_Text_TeachyTVCantAfford::
+    .string "…You don't have ¥99,999?\p"
+    .string "Then go catch something rare\n"
+    .string "and come back! Wahaha!$"
+
+ViridianCity_Text_TeachyTVSold::
+    .string "Wahaha! Sold!\n"
+    .string "Enjoy your education!\p"
+    .string "That's the most anyone's ever\n"
+    .string "paid for it. Lesson four!$"

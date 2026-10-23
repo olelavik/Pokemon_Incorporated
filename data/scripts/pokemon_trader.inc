@@ -71,6 +71,9 @@ EventScript_PokemonTrader_Box::
 	end
 
 EventScript_PokemonTrader_MakeOffer::
+	goto_if_eq VAR_0x8007, 0, EventScript_PokemonTrader_MakeOfferPrice
+	msgbox Text_TraderMarketFlooded
+EventScript_PokemonTrader_MakeOfferPrice::
 	checkplayergender
 	goto_if_eq VAR_RESULT, FEMALE, EventScript_PokemonTrader_MakeOfferFemale
 	msgbox Text_TraderOffer, MSGBOX_YESNO
@@ -191,7 +194,9 @@ Text_TraderWelcome::
 	.string "I buy POKéMON. I sell POKéMON.\n"
 	.string "No questions asked.\p"
 	.string "The higher the level, the higher\n"
-	.string "the price. Evolved is even better!$"
+	.string "the price. Evolved is even better!\p"
+	.string "But sell me the same thing twice\n"
+	.string "and the price drops. Economics!$"
 
 Text_TraderSellFromWhere::
 	.string "So, what are you selling?$"
@@ -283,3 +288,9 @@ Text_TraderNoStock::
 
 Text_TraderAnythingElse::
 	.string "Anything else catch your eye?$"
+
+Text_TraderMarketFlooded::
+	.string "Another {STR_VAR_3}? Ugh.\n"
+	.string "You've flooded the market, kid.\p"
+	.string "Everyone's selling them lately.\n"
+	.string "Prices are in the gutter.$"

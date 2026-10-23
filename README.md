@@ -23,11 +23,12 @@ The original decomp README is in [README_DECOMP.md](README_DECOMP.md).
 | Starter prices, Gary mocks you, Oak's 14% loan | Done (`PalletTown_ProfessorOaksLab`) |
 | Oak's aide collects debt after every badge | Done (`OakDebt_Collect` in `src/money.c`, `data/scripts/oak_debt.inc`) |
 | Greedy NPCs, Pallet Town to Pewter City | Done |
-| Viridian old man: landowner lecture, no tutorial | Done |
+| Viridian old man: rare-catch lecture, sells TEACHY TV for 99,999 | Done |
 | Pokémon trader in every Center: sell from party or PC | Done (`src/pokemon_trader.c`, `data/scripts/pokemon_trader.inc`) |
 | Buying Pokémon: per-Center stock, Celadon grows with badges | Done (`src/data/pokemon_trader_stock.h`) |
 | Rare 2% spawns on early routes | Done (`src/data/wild_encounters.json`) |
-| Market saturation and price swings | Planned |
+| Market saturation: -25% per repeat sale, recovers every 1,000 steps | Done |
+| Price swings per badge | Planned |
 | Entry fees, toll booths | Planned |
 | Bill's PC free (ads) / premium | Planned |
 | Mom bailout when broke | Planned |

@@ -46,6 +46,7 @@
 #include "constants/map_groups.h"
 #include "constants/songs.h"
 #include "constants/species.h"
+#include "constants/vars.h"
 
 #define MAX_MONEY 999999
 
@@ -135,13 +136,109 @@ static bool32 IsShiny(u32 otId, u32 personality)
     return GET_SHINY_VALUE(otId, personality) < SHINY_ODDS;
 }
 
+// ---------------------------------------------------------------------------
+// Market saturation
+//
+// The trader remembers the last few species you sold him. Each sale of the
+// same species knocks 25% off its next price (never below 10%). The market
+// recovers one sale's worth every MARKET_RECOVERY_STEPS steps.
+//
+// Six saved vars each hold one species (low 9 bits) and its sale count
+// (high 7 bits). A new species replaces the least saturated slot.
+// ---------------------------------------------------------------------------
+#define MARKET_SLOTS          6
+#define MARKET_SPECIES_MASK   0x1FF
+#define MARKET_COUNT_SHIFT    9
+#define MARKET_MAX_COUNT      8
+#define MARKET_RECOVERY_STEPS 1000
+
+static u16 Market_GetSlot(u32 i)          { return VarGet(VAR_MARKET_SLOT_0 + i); }
+static u16 Market_SlotSpecies(u16 slot)   { return slot & MARKET_SPECIES_MASK; }
+static u16 Market_SlotCount(u16 slot)     { return slot >> MARKET_COUNT_SHIFT; }
+
+static void Market_SetSlot(u32 i, u16 species, u16 count)
+{
+    VarSet(VAR_MARKET_SLOT_0 + i, count == 0 ? 0 : (species | (count << MARKET_COUNT_SHIFT)));
+}
+
+static u32 Market_GetSaturation(u16 species)
+{
+    u32 i;
+
+    for (i = 0; i < MARKET_SLOTS; i++)
+    {
+        u16 slot = Market_GetSlot(i);
+        if (Market_SlotCount(slot) != 0 && Market_SlotSpecies(slot) == species)
+            return Market_SlotCount(slot);
+    }
+    return 0;
+}
+
+static void Market_RecordSale(u16 species)
+{
+    u32 i, target = 0;
+    u16 lowest = 0xFFFF;
+
+    for (i = 0; i < MARKET_SLOTS; i++)
+    {
+        u16 slot = Market_GetSlot(i);
+        u16 count = Market_SlotCount(slot);
+
+        if (count != 0 && Market_SlotSpecies(slot) == species)
+        {
+            if (count < MARKET_MAX_COUNT)
+                Market_SetSlot(i, species, count + 1);
+            return;
+        }
+        if (count < lowest)
+        {
+            lowest = count;
+            target = i;
+        }
+    }
+    Market_SetSlot(target, species, 1);
+}
+
+static u32 Market_ApplySaturation(u32 price, u16 species)
+{
+    u32 n = Market_GetSaturation(species);
+    u32 floor = price / 10;
+
+    while (n-- > 0)
+        price -= price / 4;
+    if (price < floor)
+        price = floor;
+    return price == 0 ? 1 : price;
+}
+
+// Called on every step from TryStartStepCountScript.
+void Market_UpdateStepCounter(void)
+{
+    u16 steps = VarGet(VAR_MARKET_STEPS) + 1;
+    u32 i;
+
+    if (steps < MARKET_RECOVERY_STEPS)
+    {
+        VarSet(VAR_MARKET_STEPS, steps);
+        return;
+    }
+    VarSet(VAR_MARKET_STEPS, 0);
+    for (i = 0; i < MARKET_SLOTS; i++)
+    {
+        u16 slot = Market_GetSlot(i);
+        if (Market_SlotCount(slot) != 0)
+            Market_SetSlot(i, Market_SlotSpecies(slot), Market_SlotCount(slot) - 1);
+    }
+}
+
+// What the trader pays for a Pokémon, before the girl penalty.
 static u32 GetBoxMonPrice(struct BoxPokemon *boxMon)
 {
     u16 species = GetBoxMonData(boxMon, MON_DATA_SPECIES);
     u8 level = GetLevelFromBoxMonExp(boxMon);
     bool32 shiny = IsShiny(GetBoxMonData(boxMon, MON_DATA_OT_ID), GetBoxMonData(boxMon, MON_DATA_PERSONALITY));
 
-    return GetTraderPrice(species, level, shiny);
+    return Market_ApplySaturation(GetTraderPrice(species, level, shiny), species);
 }
 
 static void BufferOffer(struct BoxPokemon *boxMon)
@@ -150,6 +247,7 @@ static void BufferOffer(struct BoxPokemon *boxMon)
 
     StringCopy(gStringVar3, gSpeciesNames[species]);
     ConvertIntToDecimalStringN(gStringVar2, GetPayout(GetBoxMonPrice(boxMon)), STR_CONV_MODE_LEFT_ALIGN, 6);
+    gSpecialVar_0x8007 = Market_GetSaturation(species) != 0; // script mentions the flooded market
 }
 
 // Returns the held item to the bag. FALSE if the bag is full.
@@ -217,6 +315,7 @@ void Trader_SellPartyMon(void)
     }
     price = GetBoxMonPrice(&mon->box);
     BufferOffer(&mon->box);
+    Market_RecordSale(GetMonData(mon, MON_DATA_SPECIES));
     ZeroMonData(mon);
     CompactPartySlots();
     CalculatePlayerPartyCount();
@@ -425,6 +524,7 @@ void Trader_SellBoxMon(void)
     }
     price = GetBoxMonPrice(boxMon);
     BufferOffer(boxMon);
+    Market_RecordSale(GetBoxMonData(boxMon, MON_DATA_SPECIES));
     ZeroBoxMonAt(gSpecialVar_0x8005, gSpecialVar_0x8006);
     AddMoney(&gSaveBlock1Ptr->money, price);
     gSpecialVar_Result = TRADER_OK;

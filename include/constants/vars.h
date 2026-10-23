@@ -213,13 +213,13 @@
 #define VAR_0x409F                 0x409F
 #define VAR_OAK_DEBT               0x40A0 // Pokémon Inc: what you owe Oak
 #define VAR_OAK_LOAN_PRINCIPAL     0x40A1 // Pokémon Inc: starter price when the loan was signed
-#define VAR_0x40A2                 0x40A2
-#define VAR_0x40A3                 0x40A3
-#define VAR_0x40A4                 0x40A4
-#define VAR_0x40A5                 0x40A5
-#define VAR_0x40A6                 0x40A6
-#define VAR_0x40A7                 0x40A7
-#define VAR_0x40A8                 0x40A8
+#define VAR_MARKET_SLOT_0         0x40A2 // Pokémon Inc: market saturation
+#define VAR_MARKET_SLOT_1         0x40A3 // Pokémon Inc: market saturation
+#define VAR_MARKET_SLOT_2         0x40A4 // Pokémon Inc: market saturation
+#define VAR_MARKET_SLOT_3         0x40A5 // Pokémon Inc: market saturation
+#define VAR_MARKET_SLOT_4         0x40A6 // Pokémon Inc: market saturation
+#define VAR_MARKET_SLOT_5         0x40A7 // Pokémon Inc: market saturation
+#define VAR_MARKET_STEPS           0x40A8 // Pokémon Inc: steps toward market recovery
 #define VAR_0x40A9                 0x40A9
 
 #define VAR_QLBAK_TRAINER_REMATCHES 0x40AA // array of 4

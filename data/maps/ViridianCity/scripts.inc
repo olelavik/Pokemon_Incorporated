@@ -103,22 +103,50 @@ ViridianCity_EventScript_TutorialOldMan::
 	goto_if_eq VAR_MAP_SCENE_VIRIDIAN_CITY_OLD_MAN, 0, ViridianCity_EventScript_TutorialNotReady
 	end
 
+@ Pokémon Inc: after the lecture the old man keeps trying to sell you
+@ his TEACHY TV. Reached from the badge and post-lecture states.
 ViridianCity_EventScript_AskIfTeachyTVHelpful::
-	msgbox ViridianCity_Text_HowsTeachyTVHelping, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, ViridianCity_EventScript_TeachyTVNotHelpful
+ViridianCity_EventScript_TutorialCompleted::
+	checkitem ITEM_TEACHY_TV
+	goto_if_eq VAR_RESULT, TRUE, ViridianCity_EventScript_OldManOwnsTeachyTV
+	msgbox ViridianCity_Text_WeakenMonsFirstToCatch
+	goto ViridianCity_EventScript_OfferTeachyTV
+	end
+
+ViridianCity_EventScript_OldManOwnsTeachyTV::
 	msgbox ViridianCity_Text_MyGrandsonOnTheShow
 	release
 	end
 
-ViridianCity_EventScript_TeachyTVNotHelpful::
-	msgbox ViridianCity_Text_TooBusyForTeachyTV
+ViridianCity_EventScript_OfferTeachyTV::
+	call ViridianCity_EventScript_SellTeachyTV
 	release
 	end
 
-ViridianCity_EventScript_TutorialCompleted::
-	msgbox ViridianCity_Text_WeakenMonsFirstToCatch
-	release
-	end
+@ Shared by the first lecture and every later visit. Returns.
+ViridianCity_EventScript_SellTeachyTV::
+	showmoneybox 0, 0
+	msgbox ViridianCity_Text_TeachyTVPitch, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, ViridianCity_EventScript_TeachyTVDeclined
+	checkmoney 99999
+	goto_if_eq VAR_RESULT, FALSE, ViridianCity_EventScript_TeachyTVCantAfford
+	removemoney 99999
+	updatemoneybox
+	playse SE_SHOP
+	hidemoneybox
+	giveitem ITEM_TEACHY_TV
+	msgbox ViridianCity_Text_TeachyTVSold
+	return
+
+ViridianCity_EventScript_TeachyTVDeclined::
+	hidemoneybox
+	msgbox ViridianCity_Text_TooBusyForTeachyTV
+	return
+
+ViridianCity_EventScript_TeachyTVCantAfford::
+	hidemoneybox
+	msgbox ViridianCity_Text_TeachyTVCantAfford
+	return
 
 ViridianCity_EventScript_TutorialStart::
 	call ViridianCity_EventScript_DoTutorialBattle
@@ -222,10 +250,12 @@ ViridianCity_EventScript_TutorialTriggerRight::
 	end
 
 @ Pokémon Inc: no catching tutorial and no free TEACHY TV.
-@ The landowner gives you a lecture on property instead.
+@ He lectures you on getting rich from rare Pokémon, then tries to sell
+@ you his TEACHY TV.
 ViridianCity_EventScript_DoTutorialBattle::
 	msgbox ViridianCity_Text_ShowYouHowToCatchMons
 	setvar VAR_MAP_SCENE_VIRIDIAN_CITY_OLD_MAN, 2
 	msgbox ViridianCity_Text_ThatWasEducationalTakeThis
 	msgbox ViridianCity_Text_WatchThatToLearnBasics
+	call ViridianCity_EventScript_SellTeachyTV
 	return
