@@ -44,13 +44,15 @@ RocketHideout_B4F_Text_Grunt3PostBattle::
     .string "I'm sorry I failed you!$"
 
 RocketHideout_B4F_Text_Grunt1Intro::
-    .string "The elevator doesn't work?\n"
-    .string "Who has the LIFT KEY?$"
+    .string "HEAD OF LOGISTICS, ROCKET INC.\n"
+    .string "Every crate here has a buyer.\p"
+    .string "The elevator? Only management has\n"
+    .string "the LIFT KEY. That's me.$"
 
 RocketHideout_B4F_Text_Grunt1Defeat::
-    .string "No!$"
+    .string "Supply chain… disrupted!$"
 
 RocketHideout_B4F_Text_Grunt1PostBattle::
-    .string "Oh, no!\n"
-    .string "I dropped the LIFT KEY!$"
+    .string "I'll file this as shrinkage.\n"
+    .string "Oh, no! I dropped the LIFT KEY!$"
 

@@ -450,7 +450,7 @@ const u8 gTypeNames[NUMBER_OF_MON_TYPES][TYPE_NAME_LENGTH + 1] =
 // This is a factor in how much money you get for beating a trainer.
 const struct TrainerMoney gTrainerMoneyTable[] =
 {
-    {TRAINER_CLASS_LEADER, 25},
+    {TRAINER_CLASS_LEADER, 75}, // Pokémon Incorporated: badges are paydays (was 25)
     {TRAINER_CLASS_ELITE_FOUR, 25},
     {TRAINER_CLASS_PKMN_PROF, 25},
     {TRAINER_CLASS_RIVAL_EARLY, 4},
@@ -463,7 +463,8 @@ const struct TrainerMoney gTrainerMoneyTable[] =
     {TRAINER_CLASS_PICNICKER, 5},
     {TRAINER_CLASS_SUPER_NERD, 6},
     {TRAINER_CLASS_FISHERMAN, 9},
-    {TRAINER_CLASS_TEAM_ROCKET, 8},
+    {TRAINER_CLASS_TEAM_ROCKET, 10}, // Pokémon Incorporated: on salary (was 8)
+    {TRAINER_CLASS_ROCKET_EXEC, 30},  // Pokémon Incorporated: executive pay
     {TRAINER_CLASS_LASS, 4},
     {TRAINER_CLASS_BEAUTY, 18},
     {TRAINER_CLASS_BLACK_BELT, 6},

@@ -16,6 +16,7 @@
 #include "constants/maps.h"
 #include "constants/abilities.h"
 #include "constants/items.h"
+#include "economy.h"
 
 #define MAX_ENCOUNTER_RATE 1600
 
@@ -516,9 +517,77 @@ bool8 DoesCurrentMapHaveFishingMons(void)
     return TRUE;
 }
 
+// Pokémon Incorporated: Feebas tiles (design doc: "the Feebas rule").
+// Feebas lives on six of Route 12's water tiles and nowhere else. On those
+// tiles it bites half the time with any rod. Which six depends on your
+// trainer ID and moves every time you win a badge (when the Price Index
+// changes), so the spot can't be looked up.
+#define FEEBAS_TILES        6
+#define FEEBAS_CHANCE       50
+#define FEEBAS_MIN_LEVEL    20
+#define FEEBAS_MAX_LEVEL    25
+
+static bool8 IsFeebasTile(s16 targetX, s16 targetY)
+{
+    const struct MapLayout *layout = gMapHeader.mapLayout;
+    u32 seed, waterTiles = 0, index = 0, i;
+    u32 chosen[FEEBAS_TILES];
+    s16 x, y;
+
+    if (gSaveBlock1Ptr->location.mapGroup != MAP_GROUP(MAP_ROUTE12)
+     || gSaveBlock1Ptr->location.mapNum != MAP_NUM(MAP_ROUTE12))
+        return FALSE;
+
+    for (y = 0; y < layout->height; y++)
+        for (x = 0; x < layout->width; x++)
+            if (MetatileBehavior_IsSurfable(MapGridGetMetatileBehaviorAt(x + MAP_OFFSET, y + MAP_OFFSET)))
+                waterTiles++;
+    if (waterTiles == 0)
+        return FALSE;
+
+    seed = (gSaveBlock2Ptr->playerTrainerId[0] | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
+         | (gSaveBlock2Ptr->playerTrainerId[2] << 16) | (gSaveBlock2Ptr->playerTrainerId[3] << 24))
+         ^ (Economy_CountBadges() * 0x9E3779B9);
+    for (i = 0; i < FEEBAS_TILES; i++)
+    {
+        seed = ISO_RANDOMIZE1(seed);
+        chosen[i] = (seed >> 16) % waterTiles;
+    }
+
+    for (y = 0; y < layout->height; y++)
+    {
+        for (x = 0; x < layout->width; x++)
+        {
+            if (!MetatileBehavior_IsSurfable(MapGridGetMetatileBehaviorAt(x + MAP_OFFSET, y + MAP_OFFSET)))
+                continue;
+            if (x + MAP_OFFSET == targetX && y + MAP_OFFSET == targetY)
+            {
+                for (i = 0; i < FEEBAS_TILES; i++)
+                    if (chosen[i] == index)
+                        return TRUE;
+                return FALSE;
+            }
+            index++;
+        }
+    }
+    return FALSE;
+}
+
+static bool8 TryFeebasEncounter(void)
+{
+    s16 x, y;
+
+    GetXYCoordsOneStepInFrontOfPlayer(&x, &y);
+    if (!IsFeebasTile(x, y) || Random() % 100 >= FEEBAS_CHANCE)
+        return FALSE;
+    GenerateWildMon(SPECIES_FEEBAS, FEEBAS_MIN_LEVEL + Random() % (FEEBAS_MAX_LEVEL - FEEBAS_MIN_LEVEL + 1), 0);
+    return TRUE;
+}
+
 void FishingWildEncounter(u8 rod)
 {
-    GenerateFishingEncounter(gWildMonHeaders[GetCurrentMapWildMonHeaderId()].fishingMonsInfo, rod);
+    if (!TryFeebasEncounter())
+        GenerateFishingEncounter(gWildMonHeaders[GetCurrentMapWildMonHeaderId()].fishingMonsInfo, rod);
     IncrementGameStat(GAME_STAT_FISHING_CAPTURES);
     StartWildBattle();
 }

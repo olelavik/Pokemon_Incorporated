@@ -68,3 +68,4 @@ build-cmake-*/
 CMakeLists.txt
 compile_commands.json
 .porydaw/
+__pycache__/

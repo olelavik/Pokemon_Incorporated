@@ -6,6 +6,7 @@
 //   base  = 50 * 2^((BST - 250) / 35)     value doubles every 35 base-stat points
 //   price = base * (10 + level) / 20      Lv5 = 75%, Lv10 = 100%, Lv50 = 300%
 //   x rarity  sqrt(255 / catch rate of the first evolution stage)
+//   x jackpot 10x for the unhatched pseudo-legends and Feebas (see IsJackpotSpecies)
 //   x shiny   20x, at least 100,000
 //   x Kanto Price Index (src/economy.c), capped at MAX_MONEY
 //   eggs can't be sold
@@ -39,6 +40,7 @@
 #include "menu.h"
 #include "money.h"
 #include "new_menu_helpers.h"
+#include "pokedex.h"
 #include "pokemon.h"
 #include "pokemon_storage_system.h"
 #include "script.h"
@@ -48,6 +50,7 @@
 #include "constants/flags.h"
 #include "constants/items.h"
 #include "constants/map_groups.h"
+#include "constants/moves.h"
 #include "constants/songs.h"
 #include "constants/species.h"
 #include "constants/vars.h"
@@ -135,12 +138,31 @@ static u32 GetRarityPercent(u16 species)
     return IntSqrt(255 * 10000 / rate);
 }
 
+// Ultra-rare finds (design doc: "the Feebas rule"). Only the first stage:
+// a Feebas you fished up is a lottery ticket, a Milotic is priced by its stats.
+#define JACKPOT_MULTIPLIER 10
+static bool32 IsJackpotSpecies(u16 species)
+{
+    switch (species)
+    {
+    case SPECIES_FEEBAS:
+    case SPECIES_DRATINI:
+    case SPECIES_LARVITAR:
+    case SPECIES_BAGON:
+    case SPECIES_BELDUM:
+        return TRUE;
+    }
+    return FALSE;
+}
+
 // Full market value before the girl penalty and market saturation.
 static u32 GetTraderPrice(u16 species, u8 level, bool32 shiny)
 {
     u32 price = GetBaseValue(species) * (10 + level) / 20;
 
     price = price * GetRarityPercent(species) / 100;
+    if (IsJackpotSpecies(species))
+        price *= JACKPOT_MULTIPLIER;
     if (shiny)
     {
         price *= SHINY_MULTIPLIER;
@@ -577,6 +599,7 @@ struct TraderStock
     u8 level;
     u8 minBadges:4; // appears once you have this many badges
     u8 premium:1;   // "most useful for the next gym" markup
+    u16 moves[MAX_MON_MOVES]; // trained moveset; all MOVE_NONE = level-up moves
 };
 
 struct TraderShop
@@ -660,6 +683,30 @@ static void List_OnPicked(u16 id)
     }
 }
 
+// Like ScriptGiveMon, but a trained Pokémon comes with the moves it was sold with.
+static u8 GiveStockMon(const struct TraderStock *stock)
+{
+    u16 dexNum = SpeciesToNationalPokedexNum(stock->species);
+    struct Pokemon *mon = AllocZeroed(sizeof(struct Pokemon));
+    u8 given;
+    u32 i;
+
+    CreateMon(mon, stock->species, stock->level, USE_RANDOM_IVS, FALSE, 0, OT_ID_PLAYER_ID, 0);
+    if (stock->moves[0] != MOVE_NONE)
+    {
+        for (i = 0; i < MAX_MON_MOVES; i++)
+            SetMonMoveSlot(mon, stock->moves[i], i);
+    }
+    given = GiveMonToPlayer(mon);
+    if (given != MON_CANT_GIVE)
+    {
+        GetSetPokedexFlag(dexNum, FLAG_SET_SEEN);
+        GetSetPokedexFlag(dexNum, FLAG_SET_CAUGHT);
+    }
+    Free(mon);
+    return given;
+}
+
 void Trader_BuyMon(void)
 {
     const struct TraderShop *shop = GetCurrentShop();
@@ -679,7 +726,7 @@ void Trader_BuyMon(void)
         gSpecialVar_Result = TRADER_CANT_AFFORD;
         return;
     }
-    given = ScriptGiveMon(stock->species, stock->level, ITEM_NONE, 0, 0, 0);
+    given = GiveStockMon(stock);
     if (given == MON_CANT_GIVE)
     {
         gSpecialVar_Result = TRADER_NO_ROOM;

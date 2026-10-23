@@ -26,10 +26,13 @@ PokemonTower_7F_Text_Grunt2PostBattle::
     .string "You stay out of our business!$"
 
 PokemonTower_7F_Text_Grunt3Intro::
-    .string "You're not saving anyone, kid!$"
+    .string "HEAD OF SECURITY, ROCKET INC.\n"
+    .string "This floor is a restricted asset.\p"
+    .string "The old man signs the land over,\n"
+    .string "or nobody leaves.$"
 
 PokemonTower_7F_Text_Grunt3Defeat::
-    .string "Don't fight us ROCKETS!$"
+    .string "Security breach!$"
 
 PokemonTower_7F_Text_Grunt3PostBattle::
     .string "You're not getting away with this!$"

@@ -59,16 +59,17 @@ MtMoon_B2F_Text_Grunt3PostBattle::
     .string "and scram!$"
 
 MtMoon_B2F_Text_Grunt4Intro::
-    .string "Little kids shouldn't be messing\n"
-    .string "around with grown-ups!\p"
-    .string "It could be bad news!$"
+    .string "VP of SALES, ROCKET INC.\n"
+    .string "These fossils are next quarter's\p"
+    .string "numbers. You're a cost, kid.\n"
+    .string "Let me cut you.$"
 
 MtMoon_B2F_Text_Grunt4Defeat::
-    .string "I'm steamed!$"
+    .string "My targets!$"
 
 MtMoon_B2F_Text_Grunt4PostBattle::
-    .string "POKéMON lived here long before\n"
-    .string "people came.$"
+    .string "The fossils were already pre-sold.\n"
+    .string "Someone's getting a refund. Ugh.$"
 
 MtMoon_B2F_Text_YouWantDomeFossil::
     .string "Do you want the DOME FOSSIL?$"

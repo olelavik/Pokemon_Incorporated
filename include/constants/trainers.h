@@ -237,6 +237,8 @@
 #define TRAINER_CLASS_RS_SIS_AND_BRO      54
 #define TRAINER_CLASS_AQUA_ADMIN          55
 #define TRAINER_CLASS_MAGMA_ADMIN         56
+// Pokémon Incorporated: Rocket Inc. executives reuse the unused RS Aqua Admin class.
+#define TRAINER_CLASS_ROCKET_EXEC         TRAINER_CLASS_AQUA_ADMIN
 #define TRAINER_CLASS_YOUNGSTER           57
 #define TRAINER_CLASS_BUG_CATCHER         58
 #define TRAINER_CLASS_LASS                59

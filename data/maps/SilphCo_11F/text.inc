@@ -63,15 +63,18 @@ SilphCo_11F_Text_GiovanniPostBattle::
     .string "I must go, but I shall return!$"
 
 SilphCo_11F_Text_Grunt2Intro::
-    .string "Stop right there!\n"
-    .string "Don't you move!$"
+    .string "I'm the CFO of ROCKET INC.\n"
+    .string "This takeover cost a fortune.\p"
+    .string "You are an unbudgeted expense.\n"
+    .string "Let me write you off.$"
 
 SilphCo_11F_Text_Grunt2Defeat::
-    .string "Don't…\n"
-    .string "Please!$"
+    .string "The quarter…\n"
+    .string "is ruined!$"
 
 SilphCo_11F_Text_Grunt2PostBattle::
-    .string "So, you want to see my BOSS?$"
+    .string "You want the BOSS? He's in a\n"
+    .string "board meeting. Go on, then.$"
 
 SilphCo_11F_Text_Grunt1Intro::
     .string "Halt! Do you have an appointment\n"

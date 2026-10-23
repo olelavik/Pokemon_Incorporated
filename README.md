@@ -35,6 +35,15 @@ The original decomp README is in [README_DECOMP.md](README_DECOMP.md).
 | Rare Pokémon (catch rate <= 75) flee 25% after a failed throw | Done |
 | Paid S.S. Ticket, Saffron city pass, Cycling Road toll, museum | Done |
 | HMs sold, usable without teaching (Fly/Flash from the party menu) | Done |
+| Smart AI for every trainer | Done (`tools/pokemon_inc/smart_ai.py`) |
+| Gym leaders: 4-6 Pokémon, movesets, held items; prize x3 | Done (`tools/pokemon_inc/gym_teams.py`) |
+| Exchange counters come with trained movesets | Done (`TRAINED` in `src/data/pokemon_trader_stock.h`) |
+| Gen 2/3 Pokémon in Kanto's wild tables (145 slots, 52 areas) | Done (`tools/pokemon_inc/wild_gen23.py`) |
+| Feebas: six hidden tiles on Route 12, moved by every badge | Done (`src/wild_encounter.c`) |
+| Ultra-rares (Feebas, Dratini, Larvitar, Bagon, Beldum) sell for 10x | Done |
+| Rocket Inc.: departments, four ROCKET EXEC mini-bosses | Done (`tools/pokemon_inc/rocket_inc.py`) |
+| Trainer teams follow wealth (prize money tier) | Done (`tools/pokemon_inc/wealth_tiers.py`) |
+| Level caps, rematches, wager battles, rich rival, physical/special split | Planned |
 | Legendary bird balance | Planned |
 | Market events (crashes, booms) | Planned |
 | Entry fees, toll booths | Planned |

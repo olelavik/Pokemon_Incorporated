@@ -9,6 +9,7 @@
 //   mash KEY TIMES          press KEY TIMES times (6 on / 10 off)
 //   shot FILE.ppm           save the current frame
 //   peek ADDR               print the byte at hex ADDR
+// Env SAVFILE=path attaches a battery save file (read and written in place).
 #include <mgba/flags.h>
 #include <mgba/core/core.h>
 #include <mgba/core/serialize.h>
@@ -72,6 +73,12 @@ int main(int argc, char** argv) {
     buffer = malloc(w * h * sizeof(mColor));
     core->setVideoBuffer(core, buffer, w);
     if (!mCoreLoadFile(core, argv[1])) { fprintf(stderr, "load failed\n"); return 1; }
+    // SAVFILE=path: use a battery save (survives ROM rebuilds, unlike savestates)
+    const char* sav = getenv("SAVFILE");
+    if (sav) {
+        struct VFile* sf = VFileOpen(sav, O_CREAT | O_RDWR);
+        if (!sf || !core->loadSave(core, sf)) fprintf(stderr, "loadsave failed %s\n", sav);
+    }
     core->reset(core);
 
     FILE* script = fopen(argv[2], "r");
