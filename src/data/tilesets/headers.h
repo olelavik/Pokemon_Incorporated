@@ -746,3 +746,14 @@ const struct Tileset gTileset_HallOfFame =
     .callback = NULL,
 };
 
+
+const struct Tileset gTileset_PokemonExchange =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_PokemonExchange,
+    .palettes = gTilesetPalettes_PokemonExchange,
+    .metatiles = gMetatiles_PokemonExchange,
+    .metatileAttributes = gMetatileAttributes_PokemonExchange,
+    .callback = NULL,
+};

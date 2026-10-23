@@ -4398,6 +4398,18 @@
       "secondary_tileset": "gTileset_MtEmber",
       "border_filepath": "data/layouts/OneIsland_KindleRoad_EmberSpa/border.bin",
       "blockdata_filepath": "data/layouts/OneIsland_KindleRoad_EmberSpa/map.bin"
+    },
+    {
+      "id": "LAYOUT_POKEMON_EXCHANGE",
+      "name": "PokemonExchange_Layout",
+      "width": 11,
+      "height": 9,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_PokemonExchange",
+      "border_filepath": "data/layouts/PokemonExchange/border.bin",
+      "blockdata_filepath": "data/layouts/PokemonExchange/map.bin"
     }
   ]
 }

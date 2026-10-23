@@ -7,3 +7,9 @@
   scripts (starter purchase, loan, debt collection) without playing by hand.
   Build against libmgba with the same `-D` defines libmgba was compiled with.
 - `sheet.py` – tiles screenshots into a contact sheet.
+- `maprender.py` – render any layout or a sheet of numbered metatiles to PNG.
+- `exchange_building.py` – adds the brown "CASH" Pokémon Exchange building to
+  a town: appends 16 metatiles to the town's tileset and stamps it on the map.
+  `python3 exchange_building.py add <town_tileset_dir> <LAYOUT_ID> <x> <y>`
+- `exchange_interior.py` – (re)builds the `pokemon_exchange` interior tileset
+  (Mart + cage tiles) and `LAYOUT_POKEMON_EXCHANGE`.

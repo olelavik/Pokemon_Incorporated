@@ -197,6 +197,13 @@
       "elevation": 0,
       "dest_map": "MAP_VIRIDIAN_CITY_MART",
       "dest_warp_id": "1"
+    },
+    {
+      "x": 36,
+      "y": 26,
+      "elevation": 0,
+      "dest_map": "MAP_VIRIDIAN_CITY_POKEMON_EXCHANGE",
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [

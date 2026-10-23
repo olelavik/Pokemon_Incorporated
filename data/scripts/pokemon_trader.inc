@@ -294,3 +294,102 @@ Text_TraderMarketFlooded::
 	.string "You've flooded the market, kid.\p"
 	.string "Everyone's selling them lately.\n"
 	.string "Prices are in the gutter.$"
+
+@ ---- Inside the Pokémon Exchange ---------------------------------------
+PokemonExchange_EventScript_CagedPikachu::
+	lock
+	playmoncry SPECIES_PIKACHU, CRY_MODE_NORMAL
+	msgbox Text_CagedPikachu
+	waitmoncry
+	release
+	end
+
+PokemonExchange_EventScript_CagedMeowth::
+	lock
+	playmoncry SPECIES_MEOWTH, CRY_MODE_NORMAL
+	msgbox Text_CagedMeowth
+	waitmoncry
+	release
+	end
+
+PokemonExchange_EventScript_CagedPsyduck::
+	lock
+	playmoncry SPECIES_PSYDUCK, CRY_MODE_NORMAL
+	msgbox Text_CagedPsyduck
+	waitmoncry
+	release
+	end
+
+PokemonExchange_EventScript_CagedJigglypuff::
+	lock
+	playmoncry SPECIES_JIGGLYPUFF, CRY_MODE_NORMAL
+	msgbox Text_CagedJigglypuff
+	waitmoncry
+	release
+	end
+
+PokemonExchange_EventScript_CagedClefairy::
+	lock
+	playmoncry SPECIES_CLEFAIRY, CRY_MODE_NORMAL
+	msgbox Text_CagedClefairy
+	waitmoncry
+	release
+	end
+
+PokemonExchange_EventScript_CagedPidgey::
+	lock
+	playmoncry SPECIES_PIDGEY, CRY_MODE_NORMAL
+	msgbox Text_CagedPidgey
+	waitmoncry
+	release
+	end
+
+PokemonExchange_EventScript_Customer::
+	lock
+	faceplayer
+	msgbox Text_ExchangeCustomer
+	release
+	end
+
+PokemonExchange_EventScript_Sign::
+	msgbox Text_ExchangeSign, MSGBOX_SIGN
+	end
+
+Text_CagedPikachu::
+	.string "PIKACHU: Pika…\p"
+	.string "It presses its cheeks against the\n"
+	.string "bars. The tag reads: ON SALE!$"
+
+Text_CagedMeowth::
+	.string "MEOWTH: Meowth…\p"
+	.string "It's batting at a coin it can't\n"
+	.string "quite reach.$"
+
+Text_CagedPsyduck::
+	.string "PSYDUCK: Psy…?\p"
+	.string "It doesn't seem to know where it\n"
+	.string "is. The tag reads: AS IS.$"
+
+Text_CagedJigglypuff::
+	.string "JIGGLYPUFF: Jiggly…\p"
+	.string "It starts to sing, but the clerk\n"
+	.string "bangs on the cage.$"
+
+Text_CagedClefairy::
+	.string "CLEFAIRY: Fii…\p"
+	.string "The tag reads: FRESH FROM\n"
+	.string "MT. MOON. CERTIFICATE PENDING.$"
+
+Text_CagedPidgey::
+	.string "PIDGEY: Pi…\p"
+	.string "The tag reads: CLEARANCE. FINAL\n"
+	.string "SALE. NO RETURNS.$"
+
+Text_ExchangeCustomer::
+	.string "I buy a new POKéMON every week.\p"
+	.string "They never last. Then again,\n"
+	.string "I never feed them.$"
+
+Text_ExchangeSign::
+	.string "POKéMON EXCHANGE\n"
+	.string "We buy. We sell. No questions.$"

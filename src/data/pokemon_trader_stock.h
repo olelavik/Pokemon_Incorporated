@@ -157,7 +157,7 @@ static const struct TraderStock sStock_Sevii[] = {
 #define SHOP(mapConst, stockArray) { mapConst, stockArray, ARRAY_COUNT(stockArray) }
 
 static const struct TraderShop sTraderShops[] = {
-    SHOP(MAP_VIRIDIAN_CITY_POKEMON_CENTER_1F, sStock_Viridian),
+    SHOP(MAP_VIRIDIAN_CITY_POKEMON_EXCHANGE, sStock_Viridian),
     SHOP(MAP_PEWTER_CITY_POKEMON_CENTER_1F, sStock_Pewter),
     SHOP(MAP_ROUTE4_POKEMON_CENTER_1F, sStock_Route4),
     SHOP(MAP_CERULEAN_CITY_POKEMON_CENTER_1F, sStock_Cerulean),
